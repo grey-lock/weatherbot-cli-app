@@ -6,12 +6,12 @@ require "weatherbot/version"
 Gem::Specification.new do |spec|
   spec.name          = "weatherbot"
   spec.version       = Weatherbot::VERSION
-  spec.authors       = ["TheInvalidNonce"]
+  spec.authors       = ["Janusz Szubert"]
   spec.email         = ["TheInvalidNonce@users.noreply.github.com"]
 
-  spec.summary       = %q{TODO: Write a short summary, because Rubygems requires one.}
-  spec.description   = %q{TODO: Write a longer description or delete this line.}
-  spec.homepage      = "TODO: Put your gem's website or public repo URL here."
+  spec.summary       = %q{A Ruby CLI wrapper using the OpenWeatherMap.org API}
+  spec.description   = %q{A Ruby CLI wrapper using the OpenWeatherMap.org API with interactive features that allow you to search by City, Country and also gives you a current, and 5 day/ 3 hour forecast.}
+  spec.homepage      = "https://github.com/TheInvalidNonce/weatherbot-cli-app"
   spec.license       = "MIT"
 
   # Prevent pushing this gem to RubyGems.org. To allow pushes either set the 'allowed_push_host'
