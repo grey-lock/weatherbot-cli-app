@@ -50,30 +50,37 @@ class Weatherbot::CLI
 
     sleep(2)
 
-    puts ""
-    puts "Please enter a location in the format: <city>, <country> to check the current weather conditions! Or type ‘exit’ to exit."
-    puts ""
-
-
-    def list_popular_cities
-      puts ""
-      puts "London, United Kingdom"
-      puts "New York City, United States"
-      puts "Shanghai, China"
-      puts "Tokyo, Japan"
-      puts "Berlin, Germany"
-      puts "Lagos, Nigeria"
-      puts "Istanbul, Turkey"
-      puts "Mumbai, India"
-      puts "Moscow, Russia"
-      puts "São Paulo, Brazil"
-      puts ""
-    end
-
-
-
+    intro
+    menu
+    list_popular_cities
   end
 
+  def intro
+    puts ""
+    puts "I'm a command line interface Ruby gem that gives you up to the minute weather for any location in the world!"
+    puts ""
+  end
+
+  def list_popular_cities
+    puts ""
+    puts "London, United Kingdom"
+    puts "New York City, United States"
+    puts "Shanghai, China"
+    puts "Tokyo, Japan"
+    puts "Berlin, Germany"
+    puts "Lagos, Nigeria"
+    puts "Istanbul, Turkey"
+    puts "Mumbai, India"
+    puts "Moscow, Russia"
+    puts "São Paulo, Brazil"
+    puts ""
+  end
+
+  def menu
+    puts ""
+    puts "You can select from popular cities below, or enter a location in the format: <city>, <country>, to check the current weather conditions for that location. Or type 'exit' to quit"
+    puts ""
+  end
 
 
 end
