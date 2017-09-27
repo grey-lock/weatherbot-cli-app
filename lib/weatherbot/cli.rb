@@ -26,11 +26,11 @@ class Weatherbot::CLI
 
 
           "
-      sleep(2)
+    sleep(2)
 
 
 
-      puts "
+    puts "
            __   __  ___           ___   __   __   __
           |  | |  ||   |         |   | |  | |  |_|  |
           |  |_|  ||   |         |   | |__| |       |
@@ -48,11 +48,30 @@ class Weatherbot::CLI
 
           "
 
-      sleep(2)
+    sleep(2)
 
+    puts ""
+    puts "Please enter a location in the format: <city>, <country> to check the current weather conditions! Or type ‘exit’ to exit."
+    puts ""
+
+
+    def list_popular_cities
       puts ""
-      puts "Please enter a location in the format: <city>, <country> to check the current weather conditions! Or type ‘exit’ to exit."
+      puts "London, United Kingdom"
+      puts "New York City, United States"
+      puts "Shanghai, China"
+      puts "Tokyo, Japan"
+      puts "Berlin, Germany"
+      puts "Lagos, Nigeria"
+      puts "Istanbul, Turkey"
+      puts "Mumbai, India"
+      puts "Moscow, Russia"
+      puts "São Paulo, Brazil"
       puts ""
+    end
+
+
+
   end
 
 
