@@ -1,5 +1,2 @@
-require "weatherbot/version"
-
-module Weatherbot
-  # Your code goes here...
-end
+require_relative "./weatherbot/version"
+require_relative "./weatherbot/cli"
