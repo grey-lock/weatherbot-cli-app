@@ -3,8 +3,10 @@ class Weatherbot::OpenweatherAPI
 
 
 
-  def query(city, country_code)
-    response = HTTParty.get('https://api.openweathermap.org/data/2.5/weather?q="#{city}","#{country_code}')
+  def query(city)
+    # query sample: 'https://api.openweathermap.org/data/2.5/weather?q=New+York&appid=3207703ee5d0d14e6b6a53d10071018f'
+    response = HTTParty.get('https://api.openweathermap.org/data/2.5/weather?q="#{city}"&appid=3207703ee5d0d14e6b6a53d10071018f')
+    
   end
 
 
