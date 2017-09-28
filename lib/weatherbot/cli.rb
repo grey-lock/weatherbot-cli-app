@@ -77,8 +77,9 @@ class Weatherbot::CLI
   end
 
   def menu
+    input = nil
     puts ""
-    puts "You can select from popular cities below, or enter a location in the format: <city>, <country>, to check the current weather conditions for that location. Or type 'exit' to quit"
+    puts "You can select from popular cities below, or enter a location in the format: <city>, <country>, to check the current weather conditions for that location. Or type 'exit' to quit."
     puts ""
   end
 
