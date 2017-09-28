@@ -62,7 +62,7 @@ class Weatherbot::CLI
     puts ""
     puts "Choose from the list of cities below:"
     puts ""
-    @cities = OpenweatherAPI.popular_cities
+    @cities = Weatherbot::OpenweatherAPI.popular_cities
   end
 
   def menu

@@ -1,4 +1,4 @@
-class OpenweatherAPI
+class Weatherbot::OpenweatherAPI
 
   def self.popular_cities
     # Should open list of 10 popular cities
