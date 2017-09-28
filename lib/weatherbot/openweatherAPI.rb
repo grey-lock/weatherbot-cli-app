@@ -1,12 +1,14 @@
 class Weatherbot::OpenweatherAPI
   attr_accessor :city, :country_code
 
+  def initialize
+    @city = city
+  end
 
-
-  def query(city)
+  def self.query(city)
     # query sample: 'https://api.openweathermap.org/data/2.5/weather?q=New+York&appid=3207703ee5d0d14e6b6a53d10071018f'
-    response = HTTParty.get('https://api.openweathermap.org/data/2.5/weather?q="#{city}"&appid=3207703ee5d0d14e6b6a53d10071018f')
-    
+    response = HTTParty.get("https://api.openweathermap.org/data/2.5/weather?q=#{city}&appid=3207703ee5d0d14e6b6a53d10071018f")
+    puts response
   end
 
 
