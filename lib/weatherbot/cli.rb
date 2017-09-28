@@ -15,7 +15,6 @@ class Weatherbot::CLI
           "
     # sleep(1)
 
-
     # puts "
     #
     #
@@ -62,6 +61,7 @@ class Weatherbot::CLI
     puts ""
     puts "Choose from the list of cities below:"
     puts ""
+    # list popular cities
     @cities = Weatherbot::OpenweatherAPI.popular_cities
   end
 
@@ -79,34 +79,40 @@ class Weatherbot::CLI
       puts "-------------------------------"
 
       input = gets.strip.downcase
+      # Pass the input into the HTTParty API call
+      Weatherbot::OpenweatherAPI.query(input) # This works!
 
       case input
-        when "1"
+      when "1" # Stub for 1st item
+          input = "london"
           puts "-------------------------------"
           puts ""
           puts "London, United Kingdom current weather"
           puts ""
           puts "-------------------------------"
-        when "2"
+        when "2" # Stub for 2nd item
           puts "-------------------------------"
           puts ""
           puts "New York City, United States current weather"
           puts ""
           puts "-------------------------------"
-        when "3"
+        when "3" # Stub for 3rd item
           puts "-------------------------------"
           puts ""
           puts "Shanghai, China current weather"
           puts ""
           puts "-------------------------------"
-        when "list"
+        when "list" # This works
           list_popular_cities
-        when "exit"
+        when
+          puts
+        when "exit" # This works
           puts ""
           puts "See you again soon!"
           puts ""
         else
-          puts "Invalid selection, please try again."
+          # Need method here to check for invalid response from API
+          "Invalid entry, please enter a valid location."
         end
       end
 
