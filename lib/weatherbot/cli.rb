@@ -76,23 +76,39 @@ class Weatherbot::CLI
   def menu
     input = nil
 
-    while input != "exit"
-      list_popular_cities
+    list_popular_cities
 
+    while input != "exit"
+
+      puts "-------------------------------"
       puts ""
       puts "You can select from popular cities above by typing 1-10, or enter a location in the format: <city>, <country> to check the current weather conditions for that location. You can also type 'list' to display a list of popular cities' current weather. To quit, type 'exit."
       puts ""
+      puts "-------------------------------"
 
       input = gets.strip.downcase
 
       case input
         when "1"
+          puts "-------------------------------"
+          puts ""
           puts "London, United Kingdom current weather"
+          puts ""
+          puts "-------------------------------"
         when "2"
+          puts "-------------------------------"
+          puts ""
           puts "New York City, United States current weather"
+          puts ""
+          puts "-------------------------------"
         when "3"
+          puts "-------------------------------"
+          puts ""
           puts "Shanghai, China current weather"
-
+          puts ""
+          puts "-------------------------------"
+        when "list"
+          list_popular_cities
         when "exit"
           puts "See you again soon!"
         else
