@@ -1,7 +1,18 @@
 class Weatherbot::OpenweatherAPI
+  attr_accessor :city, :country_code
+
+
+
+  def query(city, country_code)
+    response = HTTParty.get(https://api.openweathermap.org/data/2.5/weather?q="#{city},#{country_code}"
+  end
+
 
   def self.popular_cities
     # Should open list of 10 popular cities
+    # format: City name, Country Code
+
+)
     puts "-------------------------------"
     puts ""
     puts "1. London, United Kingdom"
@@ -16,6 +27,8 @@ class Weatherbot::OpenweatherAPI
     puts "10. São Paulo, Brazil"
     puts ""
     puts "-------------------------------"
+
+
   end
 
 
