@@ -60,17 +60,9 @@ class Weatherbot::CLI
 
   def list_popular_cities
     puts ""
-    puts "1. London, United Kingdom"
-    puts "2. New York City, United States"
-    puts "3. Shanghai, China"
-    puts "4. Tokyo, Japan"
-    puts "5. Berlin, Germany"
-    puts "6. Lagos, Nigeria"
-    puts "7. Istanbul, Turkey"
-    puts "8. Mumbai, India"
-    puts "9. Moscow, Russia"
-    puts "10. São Paulo, Brazil"
+    puts "Choose from the list of cities below:"
     puts ""
+    @cities = OpenweatherAPI.popular_cities
   end
 
   def menu
@@ -110,7 +102,9 @@ class Weatherbot::CLI
         when "list"
           list_popular_cities
         when "exit"
+          puts ""
           puts "See you again soon!"
+          puts ""
         else
           puts "Invalid selection, please try again."
         end
