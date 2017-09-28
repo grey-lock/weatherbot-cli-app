@@ -34,6 +34,9 @@ class Weatherbot::OpenweatherAPI
 
   end
 
+  # Need method to parse current weather conditions
+
+  # Need method to parse 5 day / 3 hour forecast data
 
 
 end
