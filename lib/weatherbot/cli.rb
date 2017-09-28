@@ -13,22 +13,20 @@ class Weatherbot::CLI
           |_______||_______||__| |__||______| |___| |_|  |__||_______||___| |___| |___|
 
           "
-    sleep(2)
+    # sleep(1)
 
 
-    puts "
-
-
-           ____   ____   ____   ____   ____   ____   ____   ____   ____   ____   ____   ____   ____   ____
-          |____| |____| |____| |____| |____| |____| |____| |____| |____| |____| |____| |____| |____| |____|
-
-
-
-
-          "
-    sleep(2)
-
-
+    # puts "
+    #
+    #
+    #        ____   ____   ____   ____   ____   ____   ____   ____   ____   ____   ____   ____   ____   ____
+    #       |____| |____| |____| |____| |____| |____| |____| |____| |____| |____| |____| |____| |____| |____|
+    #
+    #
+    #
+    #
+    #       "
+    sleep(1)
 
     puts "
            __   __  ___           ___   __   __   __
@@ -48,11 +46,10 @@ class Weatherbot::CLI
 
           "
 
-    sleep(2)
+    sleep(1)
 
     intro
     menu
-    list_popular_cities
   end
 
   def intro
@@ -79,11 +76,12 @@ class Weatherbot::CLI
   def menu
     input = nil
 
-    puts ""
-    puts "You can select from popular cities above by typing 1-10, or enter a location in the format: <city>, <country> to check the current weather conditions for that location. Or type 'exit' to quit."
-    puts ""
-
     while input != "exit"
+      list_popular_cities
+
+      puts ""
+      puts "You can select from popular cities above by typing 1-10, or enter a location in the format: <city>, <country> to check the current weather conditions for that location. You can also type 'list' to display a list of popular cities' current weather. To quit, type 'exit."
+      puts ""
 
       input = gets.strip.downcase
 
@@ -101,7 +99,7 @@ class Weatherbot::CLI
           puts "Invalid selection, please try again."
         end
       end
-      
+
   end
 
 
