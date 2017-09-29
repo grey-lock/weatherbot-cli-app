@@ -68,68 +68,59 @@ class Weatherbot::CLI
   def menu
     input = nil
 
-    list_popular_cities
+    # list_popular_cities
 
     while input != "exit"
 
       puts "\n-------------------------------\n"
-      puts "\nYou can select from popular cities above by typing 1-10, or enter a location in the format: <location>, <country> to check the current weather conditions for that location. You can also type 'list' to display a list of popular cities' current weather. To quit, type 'exit'.\n"
+      puts "\nPlease enter a location in the format: <location>, <country> to check the current weather conditions for that location. You can also type 'list' to display a list of popular cities' current weather. To quit, type 'exit'.\n"
       puts "\n-------------------------------\n"
 
       input = gets.chomp.downcase
 
       # Check if user wants to exit
       if input === "exit"
-        puts "\n\nSee you again soon!\n\n\n"
+        puts "\n\n\nSee you again soon!\n\n\n"
         exit
       end
 
-      # Pass the input (location) into the API call for current weather
-      Weatherbot::OpenweatherAPI.current_weather(input) # This works!
+      Weatherbot::OpenweatherAPI.current_weather(input)
 
       puts "\n\nIf you want to see the 5 day / 3 hour forcast for this location, type 'forecast'. To search another location, type <location>, <country>. To quit, type 'exit'.\n\n"
 
-      input = gets.chomp.downcase
-
-      # Check if user wants to exit
-      if input === "exit"
-        puts "\n\nSee you again soon!\n\n\n"
-        exit
-      end
 
       # Pass the input (location) into the API call for current weather
-      Weatherbot::OpenweatherAPI.current_weather(input) # This works!
+      # valid_response(input)
 
       case input
-        when "1" # Stub for 1st item
-          input = "london"
-          puts "-------------------------------"
-          puts ""
-          puts "London, United Kingdom current weather"
-          puts ""
-          puts "-------------------------------"
-        when "2" # Stub for 2nd item
-          puts "-------------------------------"
-          puts ""
-          puts "New York City, United States current weather"
-          puts ""
-          puts "-------------------------------"
-        when "3" # Stub for 3rd item
-          puts "-------------------------------"
-          puts ""
-          puts "Shanghai, China current weather"
-          puts ""
-          puts "-------------------------------"
+        # when "1" # Stub for 1st item
+        #   input = "london"
+        #   puts "\n\n\nLondon, United Kingdom current weather\n\n\n"
+        # when "2" # Stub for 2nd item
+        #   puts "\n\n\nNew York City, United States current weather\n\n\n"
+        # when "3" # Stub for 3rd item
+        #   puts "\n\n\nShanghai, China current weather\n\n\n"
         when "forecast"
           Weatherbot::OpenweatherAPI.forecast(input)
         when "list" # This works
           list_popular_cities
         else
           # Need method here to check for error response from API
-          "Invalid entry, please enter a valid location."
+
         end
       end
 
+  end
+
+  # Check if input returns a valid location
+  # Does not work correctly yet
+  def valid_response(input)
+    if @response_code === "200"
+      puts @current_weather
+    else
+      puts "Invalid entry, please enter a valid location."
+      menu
+    end
   end
 
 end
