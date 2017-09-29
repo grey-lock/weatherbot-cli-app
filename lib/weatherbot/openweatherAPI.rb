@@ -8,15 +8,17 @@ class Weatherbot::OpenweatherAPI
   # Takes user input to enter into URL query for current weather conditions in imperial units
   def self.current_weather(location)
     # query sample: 'https://api.openweathermap.org/data/2.5/weather?q=new+york&appid=3207703ee5d0d14e6b6a53d10071018f&units=imperial'
-    response = HTTParty.get("https://api.openweathermap.org/data/2.5/weather?q=#{city}&appid=3207703ee5d0d14e6b6a53d10071018f&units=imperial")
+    response = HTTParty.get("https://api.openweathermap.org/data/2.5/weather?q=#{location}&appid=3207703ee5d0d14e6b6a53d10071018f&units=imperial")
     @current_weather = response.parsed_response
+    puts @current_weather
   end
 
   # Takes user input to enter into URL query for 5 day / 3 hour forecast in imperial units
   def self.forecast(location)
     # query sample: https://api.openweathermap.org/data/2.5/forecast?q=new+york&appid=3207703ee5d0d14e6b6a53d10071018f&units=imperial")
-    response = HTTParty.get("https://api.openweathermap.org/data/2.5/forecast?q=#{city}&appid=3207703ee5d0d14e6b6a53d10071018f&units=imperial")
+    response = HTTParty.get("https://api.openweathermap.org/data/2.5/forecast?q=#{location}&appid=3207703ee5d0d14e6b6a53d10071018f&units=imperial")
     @forecast = response.parsed_response
+    puts @forecast
   end
 
   def self.popular_cities

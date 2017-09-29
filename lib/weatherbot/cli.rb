@@ -83,13 +83,13 @@ class Weatherbot::CLI
       # Pass the input (location) into the API call for current weather
       Weatherbot::OpenweatherAPI.current_weather(input) # This works!
 
-      new_input = gets.strip.downcase
-      if new_input === "exit"
-        puts ""
-        puts "See you again soon!"
-        puts ""
-      end
-        
+      # new_input = gets.strip.downcase
+      # if input === "exit"
+      #   puts ""
+      #   puts "See you again soon!"
+      #   puts ""
+      # end
+
       case input
         when "1" # Stub for 1st item
           input = "london"
