@@ -1,19 +1,26 @@
 class Weatherbot::OpenweatherAPI
-  attr_accessor :city, :country_code
+  attr_accessor :location, :current_weather, :forecast
 
   def initialize
-    @city = city
+    @location = location
   end
 
-  def self.query(city)
-    # query sample: 'https://api.openweathermap.org/data/2.5/weather?q=New+York&appid=3207703ee5d0d14e6b6a53d10071018f'
-    response = HTTParty.get("https://api.openweathermap.org/data/2.5/weather?q=#{city}&appid=3207703ee5d0d14e6b6a53d10071018f")
-    puts response
+  # Takes user input to enter into URL query for current weather conditions in imperial units
+  def self.current_weather(location)
+    # query sample: 'https://api.openweathermap.org/data/2.5/weather?q=new+york&appid=3207703ee5d0d14e6b6a53d10071018f&units=imperial'
+    response = HTTParty.get("https://api.openweathermap.org/data/2.5/weather?q=#{city}&appid=3207703ee5d0d14e6b6a53d10071018f&units=imperial")
+    @current_weather = response.parsed_response
   end
 
+  # Takes user input to enter into URL query for 5 day / 3 hour forecast in imperial units
+  def self.forecast(location)
+    # query sample: https://api.openweathermap.org/data/2.5/forecast?q=new+york&appid=3207703ee5d0d14e6b6a53d10071018f&units=imperial")
+    response = HTTParty.get("https://api.openweathermap.org/data/2.5/forecast?q=#{city}&appid=3207703ee5d0d14e6b6a53d10071018f&units=imperial")
+    @forecast = response.parsed_response
+  end
 
   def self.popular_cities
-    # Should open list of 10 popular cities
+    # List 10 popular cities
     # format: City name, Country Code
 
     puts "-------------------------------"
@@ -36,7 +43,7 @@ class Weatherbot::OpenweatherAPI
 
   # Need method to parse current weather conditions
 
-  # Need method to parse 5 day / 3 hour forecast data
 
+  # Need method to parse 5 day / 3 hour forecast data
 
 end
