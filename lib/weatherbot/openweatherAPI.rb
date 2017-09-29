@@ -1,17 +1,20 @@
 class Weatherbot::OpenweatherAPI
-  attr_accessor :location, :current_weather, :forecast
+  attr_accessor :location, :current_weather, :forecast, :response_code
 
   def initialize
     @location = location
   end
+
 
   # Takes user input to enter into URL query for current weather conditions in imperial units
   def self.current_weather(location)
     # query sample: 'https://api.openweathermap.org/data/2.5/weather?q=new+york&appid=3207703ee5d0d14e6b6a53d10071018f&units=imperial'
     response = HTTParty.get("https://api.openweathermap.org/data/2.5/weather?q=#{location}&appid=3207703ee5d0d14e6b6a53d10071018f&units=imperial")
     @current_weather = response.parsed_response
+    @response_code = @current_weather["cod"]
     puts @current_weather
   end
+
 
   # Takes user input to enter into URL query for 5 day / 3 hour forecast in imperial units
   def self.forecast(location)
@@ -20,6 +23,23 @@ class Weatherbot::OpenweatherAPI
     @forecast = response.parsed_response
     puts @forecast
   end
+
+  # Parses API response
+  def detail_current_weather
+    @coordinates = @current_weather.fetch("coord").values.reverse
+    @condition = @current_weather.fetch("weather").first.fetch("description")
+    @temp_avg = @current_weather.fetch("main")["temp"]
+    @pressure = @current_weather.fetch("main")["pressure"]
+    @humidity = @current_weather.fetch("main")["humidity"]
+    @wind_speed = @current_weather.fetch("wind")["speed"]
+    @wind_direction = @current_weather.fetch("wind")["deg"]
+    @humidity = @current_weather.fetch("main")["temp"]
+    @temp_avg = @current_weather.fetch("main")["temp"]
+
+    # @response_code = @current_weather["cod"]
+
+  end
+
 
   def self.popular_cities
     # List 10 popular cities
