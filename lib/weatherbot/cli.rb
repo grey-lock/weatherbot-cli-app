@@ -73,7 +73,7 @@ class Weatherbot::CLI
     while input != "exit"
 
       puts "\n-------------------------------\n"
-      puts "\nYou can select from popular cities above by typing 1-10, or enter a location in the format: <location>, <country> to check the current weather conditions for that location. You can also type 'list' to display a list of popular cities' current weather. To quit, type 'exit.\n"
+      puts "\nYou can select from popular cities above by typing 1-10, or enter a location in the format: <location>, <country> to check the current weather conditions for that location. You can also type 'list' to display a list of popular cities' current weather. To quit, type 'exit'.\n"
       puts "\n-------------------------------\n"
 
       input = gets.chomp.downcase
