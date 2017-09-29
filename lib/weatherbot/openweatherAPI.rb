@@ -6,13 +6,32 @@ class Weatherbot::OpenweatherAPI
   end
 
 
-  # Takes user input to enter into URL query for current weather conditions in imperial units
+  # Takes user input to enter into URL query & gets current weather conditions in imperial units
   def self.current_weather(location)
     # query sample: 'https://api.openweathermap.org/data/2.5/weather?q=new+york&appid=3207703ee5d0d14e6b6a53d10071018f&units=imperial'
     response = HTTParty.get("https://api.openweathermap.org/data/2.5/weather?q=#{location}&appid=3207703ee5d0d14e6b6a53d10071018f&units=imperial")
     @current_weather = response.parsed_response
-    @response_code = @current_weather["cod"]
-    puts @current_weather
+
+    response_code = @current_weather["cod"]
+
+    if response_code === "404"
+      puts "\n\nInvalid location, please enter a valid location.\n\n"
+      return
+    else
+
+    coordinates = @current_weather.fetch("coord").values.reverse
+    condition = @current_weather.fetch("weather").first.fetch("description")
+    temp_avg = @current_weather.fetch("main")["temp"]
+    pressure = @current_weather.fetch("main")["pressure"]
+    humidity = @current_weather.fetch("main")["humidity"]
+    wind_speed = @current_weather.fetch("wind")["speed"]
+    wind_direction = @current_weather.fetch("wind")["deg"]
+
+      puts "\nLocation:         #{location.capitalize}\n\n"
+      puts "Coordinates:      #{coordinates}"
+      puts "Condition:        #{condition.capitalize}"
+      puts "Temperature:      #{temp_avg}ºF"
+    end
   end
 
 
@@ -22,22 +41,6 @@ class Weatherbot::OpenweatherAPI
     response = HTTParty.get("https://api.openweathermap.org/data/2.5/forecast?q=#{location}&appid=3207703ee5d0d14e6b6a53d10071018f&units=imperial")
     @forecast = response.parsed_response
     puts @forecast
-  end
-
-  # Parses API response
-  def detail_current_weather
-    @coordinates = @current_weather.fetch("coord").values.reverse
-    @condition = @current_weather.fetch("weather").first.fetch("description")
-    @temp_avg = @current_weather.fetch("main")["temp"]
-    @pressure = @current_weather.fetch("main")["pressure"]
-    @humidity = @current_weather.fetch("main")["humidity"]
-    @wind_speed = @current_weather.fetch("wind")["speed"]
-    @wind_direction = @current_weather.fetch("wind")["deg"]
-    @humidity = @current_weather.fetch("main")["temp"]
-    @temp_avg = @current_weather.fetch("main")["temp"]
-
-    # @response_code = @current_weather["cod"]
-
   end
 
 
