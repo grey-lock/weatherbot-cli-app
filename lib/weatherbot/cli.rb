@@ -53,7 +53,7 @@ class Weatherbot::CLI
 
   def intro
     puts ""
-    puts "I'm a command line interface Ruby gem that gives you up to the minute weather for any location in the world!"
+    puts "\nI'm a command line interface Ruby gem that gives you up to the minute weather for any location in the world!\n"
     puts ""
   end
 
@@ -72,23 +72,33 @@ class Weatherbot::CLI
 
     while input != "exit"
 
-      puts "-------------------------------"
-      puts ""
-      puts "You can select from popular cities above by typing 1-10, or enter a location in the format: <city>, <country> to check the current weather conditions for that location. You can also type 'list' to display a list of popular cities' current weather. To quit, type 'exit."
-      puts ""
-      puts "-------------------------------"
+      puts "\n-------------------------------\n"
+      puts "\nYou can select from popular cities above by typing 1-10, or enter a location in the format: <location>, <country> to check the current weather conditions for that location. You can also type 'list' to display a list of popular cities' current weather. To quit, type 'exit.\n"
+      puts "\n-------------------------------\n"
 
-      input = gets.strip.downcase
+      input = gets.chomp.downcase
+
+      # Check if user wants to exit
+      if input === "exit"
+        puts "\n\nSee you again soon!\n\n\n"
+        exit
+      end
 
       # Pass the input (location) into the API call for current weather
       Weatherbot::OpenweatherAPI.current_weather(input) # This works!
 
-      # new_input = gets.strip.downcase
-      # if input === "exit"
-      #   puts ""
-      #   puts "See you again soon!"
-      #   puts ""
-      # end
+      puts "\n\nIf you want to see the 5 day / 3 hour forcast for this location, type 'forecast'. To search another location, type <location>, <country>. To quit, type 'exit'.\n\n"
+
+      input = gets.chomp.downcase
+
+      # Check if user wants to exit
+      if input === "exit"
+        puts "\n\nSee you again soon!\n\n\n"
+        exit
+      end
+
+      # Pass the input (location) into the API call for current weather
+      Weatherbot::OpenweatherAPI.current_weather(input) # This works!
 
       case input
         when "1" # Stub for 1st item
@@ -114,12 +124,6 @@ class Weatherbot::CLI
           Weatherbot::OpenweatherAPI.forecast(input)
         when "list" # This works
           list_popular_cities
-        when
-          puts
-        when "exit" # This works
-          puts ""
-          puts "See you again soon!"
-          puts ""
         else
           # Need method here to check for error response from API
           "Invalid entry, please enter a valid location."
@@ -127,6 +131,5 @@ class Weatherbot::CLI
       end
 
   end
-
 
 end
