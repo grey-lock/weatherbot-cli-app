@@ -14,6 +14,7 @@ class Weatherbot::OpenweatherAPI
 
     response_code = @current_weather["cod"]
 
+    # Check for invalid entry
     if response_code === "404"
       puts "\n\nInvalid location, please enter a valid location.\n\n"
       return
@@ -25,12 +26,24 @@ class Weatherbot::OpenweatherAPI
     pressure = @current_weather.fetch("main")["pressure"]
     humidity = @current_weather.fetch("main")["humidity"]
     wind_speed = @current_weather.fetch("wind")["speed"]
-    wind_direction = @current_weather.fetch("wind")["deg"]
+    wind_deg = @current_weather.fetch("wind")["deg"]
+
+    # Helper function to convert degrees to direction
+    def self.degToCompass(wind_deg)
+      val = ((wind_deg / 22.5) + 0.5).floor
+      direction_arr = ["N", "NNE", "NE", "ENE", "E", "ESE", "SE", "SSE", "S", "SSW", "SW", "WSW", "W", "WNW", "NW", "NNW"]
+      return direction_arr[(val % 16)]
+    end
+
+    wind_direction = self.degToCompass(wind_deg)
 
       puts "\nLocation:         #{location.capitalize}\n\n"
       puts "Coordinates:      #{coordinates}"
       puts "Condition:        #{condition.capitalize}"
       puts "Temperature:      #{temp_avg}ºF"
+      puts "Humidity:         #{humidity}%"
+      puts "Wind Speed:       #{wind_speed} mph"
+      puts "Wind Direction:   #{wind_direction}"
     end
   end
 
