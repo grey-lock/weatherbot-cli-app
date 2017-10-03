@@ -89,8 +89,10 @@ class Weatherbot::OpenweatherAPI
   def self.forecast(location)
     # query sample: https://api.openweathermap.org/data/2.5/forecast?q=new+york&appid=3207703ee5d0d14e6b6a53d10071018f&units=imperial")
     response = HTTParty.get("https://api.openweathermap.org/data/2.5/forecast?q=#{location}&appid=3207703ee5d0d14e6b6a53d10071018f&units=imperial")
-    @forecast = response.parsed_response
-    puts @forecast
+    parsed_forecast = response.parsed_response
+    forecast_conditions = self.new
+
+    
   end
 
 
