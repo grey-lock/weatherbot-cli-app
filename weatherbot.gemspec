@@ -10,7 +10,7 @@ Gem::Specification.new do |spec|
   spec.email         = ["TheInvalidNonce@users.noreply.github.com"]
 
   spec.summary       = %q{A Ruby CLI wrapper using the OpenWeatherMap.org API}
-  spec.description   = %q{A Ruby CLI wrapper using the OpenWeatherMap.org API with interactive features that allow you to search by City, Country and also gives you a current, and 5 day/ 3 hour forecast.}
+  spec.description   = %q{A Ruby CLI wrapper using the OpenWeatherMap.org API with interactive features that allow you to search by City, Country and also gives you a current and 3 day forecast.}
   spec.homepage      = "https://github.com/TheInvalidNonce/weatherbot-cli-app"
   spec.license       = "MIT"
 
