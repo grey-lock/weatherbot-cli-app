@@ -66,44 +66,21 @@ class Weatherbot::CLI
 
       new_input = gets.chomp.downcase
 
+      # Check for specific input commands
+      if new_input === "exit"
+        puts "\n\n\nSee you again soon!\n\n\n"
+        exit
+      end
+
       if new_input === "forecast"
         Weatherbot::OpenweatherAPI.forecast(input)
       elsif new_input === "map"
         Weatherbot::OpenweatherAPI.open_link
       end
 
-
-      # Pass the input (location) into the API call for current weather
-      # valid_response(input)
-
-      # case input
-      #   # when "1" # Stub for 1st item
-      #   #   input = "london"
-      #   #   puts "\n\n\nLondon, United Kingdom current weather\n\n\n"
-      #   # when "2" # Stub for 2nd item
-      #   #   puts "\n\n\nNew York City, United States current weather\n\n\n"
-      #   # when "3" # Stub for 3rd item
-      #   #   puts "\n\n\nShanghai, China current weather\n\n\n"
-      #   when "forecast"
-      #     Weatherbot::OpenweatherAPI.forecast(input)
-      #   when "list" # This works
-      #     list_popular_cities
-      #   else
-      #     # Need method here to check for error response from API
-      #
-      #   end
       end
 
   end
 
-  # Check if input returns a valid location
-  def valid_response(input)
-    if @response_code === "200"
-      puts @current_weather
-    else
-      puts "Invalid entry, please enter a valid location."
-      menu
-    end
-  end
 
 end
