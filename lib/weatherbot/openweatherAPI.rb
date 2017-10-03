@@ -1,5 +1,5 @@
 class Weatherbot::OpenweatherAPI
-  attr_accessor :location, :current_weather, :forecast, :response_code, :coordinates, :country, :location_name, :temp_avg, :condition, :cloudiness, :pressure, :humidity, :wind_speed, :wind_direction, :report_time, :google_maps
+  attr_accessor :location, :current_weather, :forecast, :response_code, :coordinates, :country, :location_name, :temp_avg, :temp_celsius, :condition, :cloudiness, :pressure, :humidity, :wind_speed, :wind_direction, :report_time, :google_maps
 
   def initialize
     @location = location
@@ -24,7 +24,6 @@ class Weatherbot::OpenweatherAPI
     else
 
     current_conditions.coordinates = parsed_weather.fetch("coord").values.reverse.join(", ")
-    current_conditions.country = parsed_weather.fetch("sys").fetch("country")
     current_conditions.location_name = parsed_weather.fetch("name")
     current_conditions.report_time = Time.at(parsed_weather.fetch("dt"))
 
@@ -39,25 +38,35 @@ class Weatherbot::OpenweatherAPI
     current_conditions.humidity = parsed_weather.fetch("main")["humidity"]
     current_conditions.wind_speed = parsed_weather.fetch("wind")["speed"]
 
-
+    if parsed_weather.fetch("sys").has_key?("country")
+      current_conditions.country = parsed_weather.fetch("sys").fetch("country")
+    else
+      current_conditions.country = nil
+    end
 
     wind_deg = parsed_weather.fetch("wind")["deg"]
+    temp_f = parsed_weather.fetch("main")["temp"]
 
-
-    # Helper function to convert degrees to direction
+    # Helper function to convert degrees to wind direction
     def self.degToCompass(wind_deg)
       val = ((wind_deg.to_f / 22.5) + 0.5).floor
       direction_arr = ["N", "NNE", "NE", "ENE", "E", "ESE", "SE", "SSE", "S", "SSW", "SW", "WSW", "W", "WNW", "NW", "NNW"]
       return direction_arr[(val % 16)]
     end
 
+    # Helper function to convert to Celsius
+    def self.toCelsius(temp_f)
+      ((temp_f * (9.0 / 5.0)) + 32).round(2)
+    end
+
     current_conditions.wind_direction = self.degToCompass(wind_deg)
+    current_conditions.temp_celsius = self.toCelsius(temp_f)
 
       puts "\nReport Time:      #{current_conditions.report_time}"
       puts "Location:         #{current_conditions.location_name}, #{current_conditions.country}"
       puts "Coordinates:      #{current_conditions.coordinates}"
       # puts "Google Maps:      #{current_conditions.google_maps}"
-      puts "\nTemperature:      #{current_conditions.temp_avg}ºF"
+      puts "\nTemperature:      #{current_conditions.temp_avg}ºF / #{current_conditions.temp_celsius}ºC"
       puts "Condition:        #{current_conditions.condition.capitalize}"
       puts "Cloudiness:       #{current_conditions.cloudiness}%"
 
