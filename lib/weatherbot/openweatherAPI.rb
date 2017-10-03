@@ -23,34 +23,34 @@ class Weatherbot::OpenweatherAPI
       return
     else
 
-    current_conditions.coordinates = parsed_weather.fetch("coord").values.reverse.join(", ")
-    current_conditions.location_name = parsed_weather.fetch("name")
-    current_conditions.report_time = Time.at(parsed_weather.fetch("dt"))
+    current_conditions.coordinates = parsed_weather["coord"].values.reverse.join(", ")
+    current_conditions.location_name = parsed_weather["name"]
+    current_conditions.report_time = Time.at(parsed_weather["dt"])
 
     # Open query in browser to Google Maps
     current_conditions.google_maps = `open "https://www.google.com/maps/place/#{current_conditions.coordinates}"`
 
-    current_conditions.temp_avg = parsed_weather.fetch("main")["temp"]
-    current_conditions.condition = parsed_weather.fetch("weather").first.fetch("description")
-    current_conditions.cloudiness = parsed_weather.fetch("clouds")["all"]
+    current_conditions.temp_avg = parsed_weather["main"]["temp"]
+    current_conditions.condition = parsed_weather["weather"].first["description"]
+    current_conditions.cloudiness = parsed_weather["clouds"]["all"]
 
-    current_conditions.pressure = parsed_weather.fetch("main")["pressure"]
+    current_conditions.pressure = parsed_weather["main"]["pressure"]
 
-    current_conditions.humidity = parsed_weather.fetch("main")["humidity"]
-    current_conditions.wind_speed = parsed_weather.fetch("wind")["speed"]
+    current_conditions.humidity = parsed_weather["main"]["humidity"]
+    current_conditions.wind_speed = parsed_weather["wind"]["speed"]
 
-    current_conditions.sunrise = Time.at(parsed_weather.fetch("sys")["sunrise"])
-    current_conditions.sunset = Time.at(parsed_weather.fetch("sys")["sunset"])
+    current_conditions.sunrise = Time.at(parsed_weather["sys"]["sunrise"])
+    current_conditions.sunset = Time.at(parsed_weather["sys"]["sunset"])
 
     # Check for strange locations with no country key
     if parsed_weather.fetch("sys").has_key?("country")
-      current_conditions.country = parsed_weather.fetch("sys").fetch("country")
+      current_conditions.country = parsed_weather["sys"]["country"]
     else
       current_conditions.country = nil
     end
 
-    wind_deg = parsed_weather.fetch("wind")["deg"]
-    temp_f = parsed_weather.fetch("main")["temp"]
+    wind_deg = parsed_weather["wind"]["deg"]
+    temp_f = parsed_weather["main"]["temp"]
 
     # Helper function to convert degrees to wind direction
     def self.degToCompass(wind_deg)
