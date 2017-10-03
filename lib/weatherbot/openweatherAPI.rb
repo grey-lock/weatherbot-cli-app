@@ -10,9 +10,10 @@ class Weatherbot::OpenweatherAPI
   def self.current_weather(location)
     # query sample: 'https://api.openweathermap.org/data/2.5/weather?q=new+york&appid=3207703ee5d0d14e6b6a53d10071018f&units=imperial'
     response = HTTParty.get("https://api.openweathermap.org/data/2.5/weather?q=#{location}&appid=3207703ee5d0d14e6b6a53d10071018f&units=imperial")
-    @current_weather = response.parsed_response
 
-    response_code = @current_weather["cod"]
+    current_weather = response.parsed_response
+
+    response_code = current_weather["cod"]
 
     # Check for invalid entry
     if response_code === "404"
@@ -20,13 +21,13 @@ class Weatherbot::OpenweatherAPI
       return
     else
 
-    coordinates = @current_weather.fetch("coord").values.reverse
-    condition = @current_weather.fetch("weather").first.fetch("description")
-    temp_avg = @current_weather.fetch("main")["temp"]
-    pressure = @current_weather.fetch("main")["pressure"]
-    humidity = @current_weather.fetch("main")["humidity"]
-    wind_speed = @current_weather.fetch("wind")["speed"]
-    wind_deg = @current_weather.fetch("wind")["deg"]
+    coordinates = current_weather.fetch("coord").values.reverse
+    condition = current_weather.fetch("weather").first.fetch("description")
+    temp_avg = current_weather.fetch("main")["temp"]
+    pressure = current_weather.fetch("main")["pressure"]
+    humidity = current_weather.fetch("main")["humidity"]
+    wind_speed = current_weather.fetch("wind")["speed"]
+    wind_deg = current_weather.fetch("wind")["deg"]
 
     # Helper function to convert degrees to direction
     def self.degToCompass(wind_deg)
