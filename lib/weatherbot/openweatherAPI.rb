@@ -1,10 +1,9 @@
 class Weatherbot::OpenweatherAPI
-  attr_accessor :location, :current_weather, :forecast, :response_code, :coordinates, :country, :location_name, :temp_avg, :temp_celsius, :condition, :cloudiness, :pressure, :humidity, :wind_speed, :wind_direction, :report_time, :google_maps, :sunrise, :sunset, :tonight, :tmrw_day, :tmrw_night, :second_day, :second_night, :third_day, :third_night
+  attr_accessor :location, :response_code, :coordinates, :country, :location_name, :temp_avg, :temp_celsius, :condition, :cloudiness, :humidity, :wind_speed, :wind_direction, :report_time, :google_maps, :sunrise, :sunset, :tonight, :tmrw_day, :tmrw_night, :second_day, :second_night, :third_day, :third_night, :tonight_dt, :tmrw_day_dt, :tmrw_night_dt
 
   def initialize
     @location = location
-    @coodinates = coordinates
-    @country = country
+    @coordinates = coordinates
   end
 
 
@@ -28,13 +27,13 @@ class Weatherbot::OpenweatherAPI
     current_conditions.report_time = Time.at(parsed_weather["dt"])
 
     # Open query in browser to Google Maps
-    current_conditions.google_maps = `open "https://www.google.com/maps/place/#{current_conditions.coordinates}"`
+    current_conditions.google_maps = "https://www.google.com/maps/place/#{current_conditions.coordinates.gsub(" ", "")}"
 
     current_conditions.temp_avg = parsed_weather["main"]["temp"]
     current_conditions.condition = parsed_weather["weather"].first["description"]
     current_conditions.cloudiness = parsed_weather["clouds"]["all"]
 
-    current_conditions.pressure = parsed_weather["main"]["pressure"]
+    # current_conditions.pressure = parsed_weather["main"]["pressure"]
 
     current_conditions.humidity = parsed_weather["main"]["humidity"]
     current_conditions.wind_speed = parsed_weather["wind"]["speed"]
@@ -70,7 +69,7 @@ class Weatherbot::OpenweatherAPI
       puts "\nReport Time:      #{current_conditions.report_time}"
       puts "Location:         #{current_conditions.location_name}, #{current_conditions.country}"
       puts "Coordinates:      #{current_conditions.coordinates}"
-      # puts "Google Maps:      #{current_conditions.google_maps}"
+      puts "Google Maps:      #{current_conditions.google_maps}"
       puts "\nTemperature:      #{current_conditions.temp_avg}ºF / #{current_conditions.temp_celsius}ºC"
       puts "Condition:        #{current_conditions.condition.capitalize}"
       puts "Cloudiness:       #{current_conditions.cloudiness}%"
@@ -93,41 +92,44 @@ class Weatherbot::OpenweatherAPI
     forecast = self.new
 
     forecast.tonight = parsed_forecast["list"][0]
+    forecast.tonight_dt = parsed_forecast["list"][0]["dt_txt"]
     forecast.tmrw_day = parsed_forecast["list"][5]
+    forecast.tmrw_day_dt = parsed_forecast["list"][5]["dt_txt"]
     forecast.tmrw_night = parsed_forecast["list"][8]
+    forecast.tmrw_night_dt = parsed_forecast["list"][8]["dt_txt"]
     forecast.second_day = parsed_forecast["list"][13]
     forecast.second_night = parsed_forecast["list"][16]
     forecast.third_day = parsed_forecast["list"][21]
     forecast.third_night = parsed_forecast["list"][24]
 
-    puts forecast.tonight
+    puts forecast.tonight_dt
+    puts forecast.tmrw_day_dt
+    puts forecast.tmrw_night_dt
 
   end
 
 
-  def self.popular_cities
-    # List 10 popular cities
-    # format: City name, Country Code
+  # def self.popular_cities
+  #   # List 10 popular cities
+  #   # format: City name, Country Code
+  #
+  #   puts "-------------------------------"
+  #   puts ""
+  #   puts "1. London, United Kingdom"
+  #   puts "2. New York City, United States"
+  #   puts "3. Shanghai, China"
+  #   puts "4. Tokyo, Japan"
+  #   puts "5. Berlin, Germany"
+  #   puts "6. Lagos, Nigeria"
+  #   puts "7. Istanbul, Turkey"
+  #   puts "8. Mumbai, India"
+  #   puts "9. Moscow, Russia"
+  #   puts "10. São Paulo, Brazil"
+  #   puts ""
+  #   puts "-------------------------------"
+  #
+  #
+  # end
 
-    puts "-------------------------------"
-    puts ""
-    puts "1. London, United Kingdom"
-    puts "2. New York City, United States"
-    puts "3. Shanghai, China"
-    puts "4. Tokyo, Japan"
-    puts "5. Berlin, Germany"
-    puts "6. Lagos, Nigeria"
-    puts "7. Istanbul, Turkey"
-    puts "8. Mumbai, India"
-    puts "9. Moscow, Russia"
-    puts "10. São Paulo, Brazil"
-    puts ""
-    puts "-------------------------------"
-
-
-  end
-
-
-  # Need method to parse 5 day / 3 hour forecast data
 
 end
