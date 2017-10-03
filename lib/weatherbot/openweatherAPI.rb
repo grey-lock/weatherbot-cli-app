@@ -1,5 +1,5 @@
 class Weatherbot::OpenweatherAPI
-  attr_accessor :location, :current_weather, :forecast, :response_code, :coordinates, :country, :location_name, :temp_avg, :temp_celsius, :condition, :cloudiness, :pressure, :humidity, :wind_speed, :wind_direction, :report_time, :google_maps
+  attr_accessor :location, :current_weather, :forecast, :response_code, :coordinates, :country, :location_name, :temp_avg, :temp_celsius, :condition, :cloudiness, :pressure, :humidity, :wind_speed, :wind_direction, :report_time, :google_maps, :sunrise, :sunset
 
   def initialize
     @location = location
@@ -26,18 +26,21 @@ class Weatherbot::OpenweatherAPI
     current_conditions.coordinates = parsed_weather.fetch("coord").values.reverse.join(", ")
     current_conditions.location_name = parsed_weather.fetch("name")
     current_conditions.report_time = Time.at(parsed_weather.fetch("dt"))
-    
+
     # Open query in browser to Google Maps
     current_conditions.google_maps = `open "https://www.google.com/maps/place/#{current_conditions.coordinates}"`
 
     current_conditions.temp_avg = parsed_weather.fetch("main")["temp"]
     current_conditions.condition = parsed_weather.fetch("weather").first.fetch("description")
-    current_conditions.cloudiness = parsed_weather.fetch("clouds").fetch("all")
+    current_conditions.cloudiness = parsed_weather.fetch("clouds")["all"]
 
     current_conditions.pressure = parsed_weather.fetch("main")["pressure"]
 
     current_conditions.humidity = parsed_weather.fetch("main")["humidity"]
     current_conditions.wind_speed = parsed_weather.fetch("wind")["speed"]
+
+    current_conditions.sunrise = Time.at(parsed_weather.fetch("sys")["sunrise"])
+    current_conditions.sunset = Time.at(parsed_weather.fetch("sys")["sunset"])
 
     # Check for strange locations with no country key
     if parsed_weather.fetch("sys").has_key?("country")
@@ -58,7 +61,7 @@ class Weatherbot::OpenweatherAPI
 
     # Helper function to convert to Celsius
     def self.toCelsius(temp_f)
-      ((temp_f * (9.0 / 5.0)) + 32).round(2)
+      ((temp_f - 32) * (5.0 / 9.0)).round(2)
     end
 
     current_conditions.wind_direction = self.degToCompass(wind_deg)
@@ -75,6 +78,9 @@ class Weatherbot::OpenweatherAPI
       puts "\nHumidity:         #{current_conditions.humidity}%"
       puts "Wind Speed:       #{current_conditions.wind_speed} mph"
       puts "Wind Direction:   #{current_conditions.wind_direction}"
+
+      puts "\nSunrise:          #{current_conditions.sunrise}"
+      puts "Sunset:           #{current_conditions.sunset}"
     end
   end
 
