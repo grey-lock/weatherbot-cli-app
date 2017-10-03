@@ -26,7 +26,8 @@ class Weatherbot::OpenweatherAPI
     current_conditions.coordinates = parsed_weather.fetch("coord").values.reverse.join(", ")
     current_conditions.location_name = parsed_weather.fetch("name")
     current_conditions.report_time = Time.at(parsed_weather.fetch("dt"))
-
+    
+    # Open query in browser to Google Maps
     current_conditions.google_maps = `open "https://www.google.com/maps/place/#{current_conditions.coordinates}"`
 
     current_conditions.temp_avg = parsed_weather.fetch("main")["temp"]
@@ -38,6 +39,7 @@ class Weatherbot::OpenweatherAPI
     current_conditions.humidity = parsed_weather.fetch("main")["humidity"]
     current_conditions.wind_speed = parsed_weather.fetch("wind")["speed"]
 
+    # Check for strange locations with no country key
     if parsed_weather.fetch("sys").has_key?("country")
       current_conditions.country = parsed_weather.fetch("sys").fetch("country")
     else
