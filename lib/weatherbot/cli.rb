@@ -3,30 +3,7 @@
 class Weatherbot::CLI
 
   def call
-    puts "
-           ___      _______  _______  ______   ___   __    _  _______
-          |   |    |       ||   _   ||      | |   | |  |  | ||       |
-          |   |    |   _   ||  |_|  ||  _    ||   | |   |_| ||    ___|
-          |   |    |  | |  ||       || | |   ||   | |       ||   | __
-          |   |___ |  |_|  ||       || |_|   ||   | |  _    ||   ||  | ___   ___   ___
-          |       ||       ||   _   ||       ||   | | | |   ||   |_| ||   | |   | |   |
-          |_______||_______||__| |__||______| |___| |_|  |__||_______||___| |___| |___|
-
-          "
-    # sleep(1)
-
-    # puts "
-    #
-    #
-    #        ____   ____   ____   ____   ____   ____   ____   ____   ____   ____   ____   ____   ____   ____
-    #       |____| |____| |____| |____| |____| |____| |____| |____| |____| |____| |____| |____| |____| |____|
-    #
-    #
-    #
-    #
-    #       "
     sleep(1)
-
     puts "
            __   __  ___           ___   __   __   __
           |  | |  ||   |         |   | |  | |  |_|  |
@@ -53,7 +30,7 @@ class Weatherbot::CLI
 
   def intro
     puts ""
-    puts "\nI'm a command line interface Ruby gem that gives you up to the minute weather for any location in the world!\n"
+    puts "\nI'm a command line interface Ruby gem that gives you current and forecast weather for any location in the world!\n"
     puts ""
   end
 
@@ -73,7 +50,9 @@ class Weatherbot::CLI
     while input != "exit"
 
       puts "\n-------------------------------\n"
-      puts "\nPlease enter a location in the format: <location>, <country> to check the current weather conditions for that location. You can also type 'list' to display a list of popular cities' current weather. To quit, type 'exit'.\n"
+      puts "\nPlease enter a specific location in the format: <location>, <country> to check the current weather conditions for that location. You can also search by <location>, <state>, <country>, OR  <zipcode>, US, to find the correct specific location.
+      \n*NOTE: This will open your browser to the best guess coordinates in Google Maps.*\n
+      \nYou can also type 'forecast' to display the 5 day/3 hour forecast of the most recent search. To quit, type 'exit'.\n"
       puts "\n-------------------------------\n"
 
       input = gets.chomp.downcase
@@ -86,7 +65,7 @@ class Weatherbot::CLI
 
       Weatherbot::OpenweatherAPI.current_weather(input)
 
-      puts "\n\nIf you want to see the 5 day / 3 hour forcast for this location, type 'forecast'. To search another location, type <location>, <country>. To quit, type 'exit'.\n\n"
+      # puts "\n\nIf you want to see the 5 day / 3 hour forcast for this location, type 'forecast'. To search another location, type <location>, <country>. To quit, type 'exit'.\n\n"
 
 
       # Pass the input (location) into the API call for current weather
