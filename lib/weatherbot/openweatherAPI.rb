@@ -86,7 +86,7 @@ class Weatherbot::OpenweatherAPI
   end
 
 
-  # Takes user input to enter into URL query for 3 day / 3 hour forecast in imperial units
+  # Takes user input to enter into URL query for 3 day forecast in imperial units
   def self.forecast(location)
     # query sample: https://api.openweathermap.org/data/2.5/forecast?q=new+york&appid=3207703ee5d0d14e6b6a53d10071018f&units=imperial
     response = HTTParty.get("https://api.openweathermap.org/data/2.5/forecast?q=#{location}&appid=3207703ee5d0d14e6b6a53d10071018f&units=imperial")
