@@ -29,18 +29,16 @@ class Weatherbot::CLI
   end
 
   def intro
-    puts ""
-    puts "\nI'm a command line interface Ruby gem that gives you current and forecast weather for any location in the world!\n"
-    puts ""
+    puts "\n\nI'm a command line interface Ruby gem that gives you current and forecast weather for any location in the world!\n\n"
   end
 
-  def list_popular_cities
-    puts ""
-    puts "Choose from the list of cities below:"
-    puts ""
-    # list popular cities
-    @cities = Weatherbot::OpenweatherAPI.popular_cities
-  end
+  # def list_popular_cities
+  #   puts ""
+  #   puts "Choose from the list of cities below:"
+  #   puts ""
+  #   # list popular cities
+  #   @cities = Weatherbot::OpenweatherAPI.popular_cities
+  # end
 
   def menu
     input = nil
@@ -70,7 +68,7 @@ class Weatherbot::CLI
       if new_input === "forecast"
         Weatherbot::OpenweatherAPI.forecast(input)
       # elsif new_input === "map"
-      #   `open "https://www.google.com/maps/place/#{@current_conditions.coordinates}"`
+      #   system("open", "#{@google_maps_link}")
       end
 
 
@@ -98,7 +96,6 @@ class Weatherbot::CLI
   end
 
   # Check if input returns a valid location
-  # Does not work correctly yet
   def valid_response(input)
     if @response_code === "200"
       puts @current_weather

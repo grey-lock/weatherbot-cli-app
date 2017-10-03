@@ -1,9 +1,10 @@
 class Weatherbot::OpenweatherAPI
-  attr_accessor :location, :response_code, :coordinates, :country, :location_name, :temp_avg, :temp_celsius, :condition, :cloudiness, :humidity, :wind_speed, :wind_direction, :report_time, :google_maps, :sunrise, :sunset, :tonight, :tmrw_day, :tmrw_night, :second_day, :second_night, :third_day, :third_night, :tonight_dt, :tmrw_day_dt, :tmrw_night_dt
+  attr_accessor :google_maps_link, :location, :response_code, :coordinates, :country, :location_name, :temp_avg, :temp_celsius, :condition, :cloudiness, :humidity, :wind_speed, :wind_direction, :report_time, :google_maps, :sunrise, :sunset, :tonight, :tmrw_day, :tmrw_night, :second_day, :second_night, :third_day, :third_night, :tonight_dt, :tmrw_day_dt, :tmrw_night_dt, :google_maps_link
 
   def initialize
     @location = location
     @coordinates = coordinates
+    @google_maps_link = google_maps_link
   end
 
 
@@ -28,6 +29,7 @@ class Weatherbot::OpenweatherAPI
 
     # Open query in browser to Google Maps
     current_conditions.google_maps = "https://www.google.com/maps/place/#{current_conditions.coordinates.gsub(" ", "")}"
+    @google_maps_link = current_conditions.google_maps
 
     current_conditions.temp_avg = parsed_weather["main"]["temp"]
     current_conditions.condition = parsed_weather["weather"].first["description"]
