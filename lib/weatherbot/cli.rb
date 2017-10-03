@@ -49,8 +49,9 @@ class Weatherbot::CLI
 
       puts "\n-------------------------------\n"
       puts "\nPlease enter a specific location in the format: <location>, <country> to check the current weather conditions for that location. You can also search by <location>, <state>, <country>, OR  <zipcode>, US, to find the correct specific location.
-      \n*NOTE: This will open your browser to the best guess coordinates in Google Maps.*\n
-      \nYou can also type 'forecast' to display the 5 day/3 hour forecast of the most recent search. To quit, type 'exit'.\n"
+      \nType 'map' to open the most relevant result in your OS default browser.
+      \n*NOTE: This will open your web browser to the most likely location coordinates in Google Maps.*
+      \nYou can also type 'forecast' to display the 3 day forecast of the most recent search. To quit, type 'exit'.\n"
       puts "\n-------------------------------\n"
 
       input = gets.chomp.downcase
@@ -67,8 +68,8 @@ class Weatherbot::CLI
 
       if new_input === "forecast"
         Weatherbot::OpenweatherAPI.forecast(input)
-      # elsif new_input === "map"
-      #   system("open", "#{@google_maps_link}")
+      elsif new_input === "map"
+        Weatherbot::OpenweatherAPI.open_link
       end
 
 
