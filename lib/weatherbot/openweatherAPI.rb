@@ -1,8 +1,10 @@
 class Weatherbot::OpenweatherAPI
-  attr_accessor :location, :current_weather, :forecast, :response_code
+  attr_accessor :location, :current_weather, :forecast, :response_code, :coordinates, :country, :location_name, :temp_avg, :condition, :cloudiness, :pressure, :humidity, :wind_speed, :wind_direction
 
   def initialize
     @location = location
+    @coodinates = coordinates
+    @country = country
   end
 
 
@@ -11,23 +13,29 @@ class Weatherbot::OpenweatherAPI
     # query sample: 'https://api.openweathermap.org/data/2.5/weather?q=new+york&appid=3207703ee5d0d14e6b6a53d10071018f&units=imperial'
     response = HTTParty.get("https://api.openweathermap.org/data/2.5/weather?q=#{location}&appid=3207703ee5d0d14e6b6a53d10071018f&units=imperial")
 
-    current_weather = response.parsed_response
-
-    response_code = current_weather["cod"]
+    parsed_weather = response.parsed_response
+    current_conditions = self.new
+    current_conditions.response_code = parsed_weather["cod"]
 
     # Check for invalid entry
-    if response_code === "404"
+    if current_conditions.response_code === "404"
       puts "\n\nInvalid location, please enter a valid location.\n\n"
       return
     else
 
-    coordinates = current_weather.fetch("coord").values.reverse
-    condition = current_weather.fetch("weather").first.fetch("description")
-    temp_avg = current_weather.fetch("main")["temp"]
-    pressure = current_weather.fetch("main")["pressure"]
-    humidity = current_weather.fetch("main")["humidity"]
-    wind_speed = current_weather.fetch("wind")["speed"]
-    wind_deg = current_weather.fetch("wind")["deg"]
+    current_conditions.coordinates = parsed_weather.fetch("coord").values.reverse
+    current_conditions.country = parsed_weather.fetch("sys").fetch("country")
+    current_conditions.location_name = parsed_weather.fetch("name")
+    current_conditions.temp_avg = parsed_weather.fetch("main")["temp"]
+    current_conditions.condition = parsed_weather.fetch("weather").first.fetch("description")
+    current_conditions.cloudiness = parsed_weather.fetch("clouds").fetch("all")
+
+    current_conditions.pressure = parsed_weather.fetch("main")["pressure"]
+
+    current_conditions.humidity = parsed_weather.fetch("main")["humidity"]
+    current_conditions.wind_speed = parsed_weather.fetch("wind")["speed"]
+    wind_deg = parsed_weather.fetch("wind")["deg"]
+
 
     # Helper function to convert degrees to direction
     def self.degToCompass(wind_deg)
@@ -36,15 +44,17 @@ class Weatherbot::OpenweatherAPI
       return direction_arr[(val % 16)]
     end
 
-    wind_direction = self.degToCompass(wind_deg)
+    current_conditions.wind_direction = self.degToCompass(wind_deg)
 
-      puts "\nLocation:         #{location.capitalize}\n\n"
-      puts "Coordinates:      #{coordinates}"
-      puts "Condition:        #{condition.capitalize}"
-      puts "Temperature:      #{temp_avg}ºF"
-      puts "Humidity:         #{humidity}%"
-      puts "Wind Speed:       #{wind_speed} mph"
-      puts "Wind Direction:   #{wind_direction}"
+      puts "\nLocation:         #{current_conditions.location_name}, #{current_conditions.country}\n\n"
+      puts "Coordinates:      #{current_conditions.coordinates}"
+      puts "Temperature:      #{current_conditions.temp_avg}ºF"
+      puts "Condition:        #{current_conditions.condition.capitalize}"
+      puts "Cloudiness:       #{current_conditions.cloudiness}%"
+
+      puts "Humidity:         #{current_conditions.humidity}%"
+      puts "Wind Speed:       #{current_conditions.wind_speed} mph"
+      puts "Wind Direction:   #{current_conditions.wind_direction}"
     end
   end
 
