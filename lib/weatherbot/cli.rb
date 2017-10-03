@@ -68,7 +68,9 @@ class Weatherbot::CLI
       new_input = gets.chomp.downcase
 
       if new_input === "forecast"
-        Weatherbot::OpenweatherAPI.current_weather(input)
+        Weatherbot::OpenweatherAPI.forecast(input)
+      # elsif new_input === "map"
+      #   `open "https://www.google.com/maps/place/#{@current_conditions.coordinates}"`
       end
 
 
