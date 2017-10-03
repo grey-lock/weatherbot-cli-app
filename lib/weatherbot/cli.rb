@@ -65,28 +65,32 @@ class Weatherbot::CLI
 
       Weatherbot::OpenweatherAPI.current_weather(input)
 
-      # puts "\n\nIf you want to see the 5 day / 3 hour forcast for this location, type 'forecast'. To search another location, type <location>, <country>. To quit, type 'exit'.\n\n"
+      new_input = gets.chomp.downcase
+
+      if new_input === "forecast"
+        Weatherbot::OpenweatherAPI.current_weather(input)
+      end
 
 
       # Pass the input (location) into the API call for current weather
       # valid_response(input)
 
-      case input
-        # when "1" # Stub for 1st item
-        #   input = "london"
-        #   puts "\n\n\nLondon, United Kingdom current weather\n\n\n"
-        # when "2" # Stub for 2nd item
-        #   puts "\n\n\nNew York City, United States current weather\n\n\n"
-        # when "3" # Stub for 3rd item
-        #   puts "\n\n\nShanghai, China current weather\n\n\n"
-        when "forecast"
-          Weatherbot::OpenweatherAPI.forecast(input)
-        when "list" # This works
-          list_popular_cities
-        else
-          # Need method here to check for error response from API
-
-        end
+      # case input
+      #   # when "1" # Stub for 1st item
+      #   #   input = "london"
+      #   #   puts "\n\n\nLondon, United Kingdom current weather\n\n\n"
+      #   # when "2" # Stub for 2nd item
+      #   #   puts "\n\n\nNew York City, United States current weather\n\n\n"
+      #   # when "3" # Stub for 3rd item
+      #   #   puts "\n\n\nShanghai, China current weather\n\n\n"
+      #   when "forecast"
+      #     Weatherbot::OpenweatherAPI.forecast(input)
+      #   when "list" # This works
+      #     list_popular_cities
+      #   else
+      #     # Need method here to check for error response from API
+      #
+      #   end
       end
 
   end
