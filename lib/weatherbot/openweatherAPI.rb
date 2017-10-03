@@ -1,5 +1,5 @@
 class Weatherbot::OpenweatherAPI
-  attr_accessor :location, :current_weather, :forecast, :response_code, :coordinates, :country, :location_name, :temp_avg, :temp_celsius, :condition, :cloudiness, :pressure, :humidity, :wind_speed, :wind_direction, :report_time, :google_maps, :sunrise, :sunset
+  attr_accessor :location, :current_weather, :forecast, :response_code, :coordinates, :country, :location_name, :temp_avg, :temp_celsius, :condition, :cloudiness, :pressure, :humidity, :wind_speed, :wind_direction, :report_time, :google_maps, :sunrise, :sunset, :tonight, :tmrw_day, :tmrw_night, :second_day, :second_night, :third_day, :third_night
 
   def initialize
     @location = location
@@ -85,14 +85,23 @@ class Weatherbot::OpenweatherAPI
   end
 
 
-  # Takes user input to enter into URL query for 5 day / 3 hour forecast in imperial units
+  # Takes user input to enter into URL query for 3 day / 3 hour forecast in imperial units
   def self.forecast(location)
-    # query sample: https://api.openweathermap.org/data/2.5/forecast?q=new+york&appid=3207703ee5d0d14e6b6a53d10071018f&units=imperial")
+    # query sample: https://api.openweathermap.org/data/2.5/forecast?q=new+york&appid=3207703ee5d0d14e6b6a53d10071018f&units=imperial
     response = HTTParty.get("https://api.openweathermap.org/data/2.5/forecast?q=#{location}&appid=3207703ee5d0d14e6b6a53d10071018f&units=imperial")
     parsed_forecast = response.parsed_response
-    forecast_conditions = self.new
+    forecast = self.new
 
-    
+    forecast.tonight = parsed_forecast["list"][0]
+    forecast.tmrw_day = parsed_forecast["list"][5]
+    forecast.tmrw_night = parsed_forecast["list"][8]
+    forecast.second_day = parsed_forecast["list"][13]
+    forecast.second_night = parsed_forecast["list"][16]
+    forecast.third_day = parsed_forecast["list"][21]
+    forecast.third_night = parsed_forecast["list"][24]
+
+    puts forecast.tonight
+
   end
 
 
