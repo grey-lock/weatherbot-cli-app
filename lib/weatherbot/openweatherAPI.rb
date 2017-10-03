@@ -1,5 +1,5 @@
 class Weatherbot::OpenweatherAPI
-  attr_accessor :location, :current_weather, :forecast, :response_code, :coordinates, :country, :location_name, :temp_avg, :condition, :cloudiness, :pressure, :humidity, :wind_speed, :wind_direction
+  attr_accessor :location, :current_weather, :forecast, :response_code, :coordinates, :country, :location_name, :temp_avg, :condition, :cloudiness, :pressure, :humidity, :wind_speed, :wind_direction, :report_time, :google_maps
 
   def initialize
     @location = location
@@ -23,9 +23,13 @@ class Weatherbot::OpenweatherAPI
       return
     else
 
-    current_conditions.coordinates = parsed_weather.fetch("coord").values.reverse
+    current_conditions.coordinates = parsed_weather.fetch("coord").values.reverse.join(", ")
     current_conditions.country = parsed_weather.fetch("sys").fetch("country")
     current_conditions.location_name = parsed_weather.fetch("name")
+    current_conditions.report_time = Time.at(parsed_weather.fetch("dt"))
+
+    current_conditions.google_maps = `open "https://www.google.com/maps/place/#{current_conditions.coordinates}"`
+
     current_conditions.temp_avg = parsed_weather.fetch("main")["temp"]
     current_conditions.condition = parsed_weather.fetch("weather").first.fetch("description")
     current_conditions.cloudiness = parsed_weather.fetch("clouds").fetch("all")
@@ -34,25 +38,30 @@ class Weatherbot::OpenweatherAPI
 
     current_conditions.humidity = parsed_weather.fetch("main")["humidity"]
     current_conditions.wind_speed = parsed_weather.fetch("wind")["speed"]
+
+
+
     wind_deg = parsed_weather.fetch("wind")["deg"]
 
 
     # Helper function to convert degrees to direction
     def self.degToCompass(wind_deg)
-      val = ((wind_deg / 22.5) + 0.5).floor
+      val = ((wind_deg.to_f / 22.5) + 0.5).floor
       direction_arr = ["N", "NNE", "NE", "ENE", "E", "ESE", "SE", "SSE", "S", "SSW", "SW", "WSW", "W", "WNW", "NW", "NNW"]
       return direction_arr[(val % 16)]
     end
 
     current_conditions.wind_direction = self.degToCompass(wind_deg)
 
-      puts "\nLocation:         #{current_conditions.location_name}, #{current_conditions.country}\n\n"
+      puts "\nReport Time:      #{current_conditions.report_time}"
+      puts "Location:         #{current_conditions.location_name}, #{current_conditions.country}"
       puts "Coordinates:      #{current_conditions.coordinates}"
-      puts "Temperature:      #{current_conditions.temp_avg}ºF"
+      # puts "Google Maps:      #{current_conditions.google_maps}"
+      puts "\nTemperature:      #{current_conditions.temp_avg}ºF"
       puts "Condition:        #{current_conditions.condition.capitalize}"
       puts "Cloudiness:       #{current_conditions.cloudiness}%"
 
-      puts "Humidity:         #{current_conditions.humidity}%"
+      puts "\nHumidity:         #{current_conditions.humidity}%"
       puts "Wind Speed:       #{current_conditions.wind_speed} mph"
       puts "Wind Direction:   #{current_conditions.wind_direction}"
     end
@@ -89,8 +98,6 @@ class Weatherbot::OpenweatherAPI
 
 
   end
-
-  # Need method to parse current weather conditions
 
 
   # Need method to parse 5 day / 3 hour forecast data
