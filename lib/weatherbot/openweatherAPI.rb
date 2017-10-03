@@ -110,7 +110,17 @@ class Weatherbot::OpenweatherAPI
 
   end
 
-
+  # Method to open link in Google Maps depending on OS
+  def self.open_link
+    link = @google_maps_link
+    if RbConfig::CONFIG['host_os'] =~ /mswin|mingw|cygwin/
+      system "start #{link}"
+    elsif RbConfig::CONFIG['host_os'] =~ /darwin/
+      system "open #{link}"
+    elsif RbConfig::CONFIG['host_os'] =~ /linux|bsd/
+      system "xdg-open #{link}"
+    end
+  end
   # def self.popular_cities
   #   # List 10 popular cities
   #   # format: City name, Country Code
