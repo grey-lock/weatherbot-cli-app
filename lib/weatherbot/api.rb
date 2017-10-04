@@ -43,7 +43,7 @@ class Weatherbot::API < Helper
     # Open query in browser to Google Maps
     current.google_maps = "https://www.google.com/maps/place/#{current.coordinates.gsub(" ", "")}"
     @google_maps_link = current.google_maps
-    
+
     # Check for odd locations with no country key
     if parsed.fetch("sys").has_key?("country")
       current.country = parsed["sys"]["country"]
@@ -74,9 +74,41 @@ class Weatherbot::API < Helper
     parsed = response.parsed_response
     forecast = self.new
 
+    forecast.location_name = parsed["name"]
+    forecast.temp24avg = parsed["list"][6]["main"]["temp"]
+    forecast.temp48avg = parsed["list"][14]["main"]["temp"]
+    forecast.temp72avg = parsed["list"][22]["main"]["temp"]
+    forecast.condition24 = parsed["list"][6]["weather"][0]["description"]
+    forecast.condition48 = parsed["list"][14]["weather"][0]["description"]
+    forecast.condition72 = parsed["list"][22]["weather"][0]["description"]
+    forecast.cloudiness24 = parsed["list"][6]["clouds"]["all"]
+    forecast.cloudiness48 = parsed["list"][14]["clouds"]["all"]
+    forecast.cloudiness72 = parsed["list"][22]["clouds"]["all"]
+    forecast.humidity = parsed["main"]["humidity"]
+    forecast.wind_speed = parsed["wind"]["speed"]
+    forecast.sunrise = Time.at(parsed["sys"]["sunrise"])
+    forecast.sunset = Time.at(parsed["sys"]["sunset"])
+
+    wind_deg = parsed["wind"]["deg"]
+    temp_f = parsed["main"]["temp"]
+    forecast.wind_direction = degToCompass(wind_deg)
+    forecast.temp_celsius = toCelsius(temp_f)
+
+    # Open query in browser to Google Maps
+    forecast.google_maps = "https://www.google.com/maps/place/#{current.coordinates.gsub(" ", "")}"
+    @google_maps_link = current.google_maps
+
+    # Check for odd locations with no country key
+    if parsed.fetch("sys").has_key?("country")
+      current.country = parsed["sys"]["country"]
+    else
+      current.country = nil
+    end
+
     # Forecast hash every 24 hours up to 72hrs
     forecast.hr24 = parsed["list"][6]
     forecast.hr24_dt = parsed["list"][6]["dt_txt"]
+
     forecast.hr48 = parsed["list"][14]
     forecast.hr48_dt = parsed["list"][14]["dt_txt"]
     forecast.hr72 = parsed["list"][22]
