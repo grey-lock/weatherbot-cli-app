@@ -11,4 +11,5 @@ require "weatherbot"
 # Pry.start
 
 require "irb"
+
 IRB.start(__FILE__)

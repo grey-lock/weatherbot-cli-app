@@ -1,6 +1,8 @@
 #!/usr/bin/env ruby
 
 # require "bundler/setup"
+# require "httparty"
+# require "pry"
 require "./lib/weatherbot"
 
 Weatherbot::CLI.new.call
