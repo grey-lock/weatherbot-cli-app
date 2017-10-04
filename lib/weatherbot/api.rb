@@ -1,6 +1,6 @@
 
 class Weatherbot::API
-  attr_accessor :google_maps_link, :location, :response_code, :coordinates, :country, :location_name, :temp_avg, :temp_celsius, :condition, :cloudiness, :humidity, :wind_speed, :wind_direction, :report_time, :google_maps, :sunrise, :sunset, :tonight, :tmrw_day, :tmrw_night, :second_day, :second_night, :third_day, :third_night, :tonight_dt, :tmrw_day_dt, :tmrw_night_dt, :google_maps_link
+  attr_accessor :google_maps_link, :location, :response_code, :coordinates, :country, :location_name, :temp_avg, :temp_celsius, :condition, :cloudiness, :humidity, :wind_speed, :wind_direction, :report_time, :google_maps, :sunrise, :sunset, :hr24, :hr24_dt, :hr48, :hr48_dt, :hr72, :hr72_dt, :google_maps_link
 
   def initialize
     @location = location
@@ -94,20 +94,22 @@ class Weatherbot::API
     parsed_forecast = response.parsed_response
     forecast = self.new
 
-    forecast.tonight = parsed_forecast["list"][0]
-    forecast.tonight_dt = parsed_forecast["list"][0]["dt_txt"]
-    forecast.tmrw_day = parsed_forecast["list"][5]
-    forecast.tmrw_day_dt = parsed_forecast["list"][5]["dt_txt"]
-    forecast.tmrw_night = parsed_forecast["list"][8]
-    forecast.tmrw_night_dt = parsed_forecast["list"][8]["dt_txt"]
-    forecast.second_day = parsed_forecast["list"][13]
-    forecast.second_night = parsed_forecast["list"][16]
-    forecast.third_day = parsed_forecast["list"][21]
-    forecast.third_night = parsed_forecast["list"][24]
+    # Forecast hash every 12 hours up to 72hrs
 
-    puts forecast.tonight_dt
-    puts forecast.tmrw_day_dt
-    puts forecast.tmrw_night_dt
+    forecast.hr24 = parsed_forecast["list"][6]
+    forecast.hr24_dt = parsed_forecast["list"][6]["dt_txt"]
+    forecast.hr48 = parsed_forecast["list"][14]
+    forecast.hr48_dt = parsed_forecast["list"][14]["dt_txt"]
+    forecast.hr72 = parsed_forecast["list"][22]
+    forecast.hr72_dt = parsed_forecast["list"][22]["dt_txt"]
+
+    puts forecast.hr24_dt
+    puts forecast.hr24
+    puts forecast.hr48_dt
+    puts forecast.hr48
+    puts forecast.hr72_dt
+    puts forecast.hr72
+
 
   end
 
