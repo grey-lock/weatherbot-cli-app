@@ -1,6 +1,6 @@
 
 class Weatherbot::API < Helper
-  attr_accessor :location, :response_code, :coordinates, :country, :location_name, :temp_avg, :temp_celsius, :condition, :cloudiness, :humidity, :wind_speed, :wind_direction, :report_time, :google_maps, :google_maps_link, :sunrise, :sunset, :hr24, :hr24_dt, :hr48, :hr48_dt, :hr72, :hr72_dt, :temp24avg, :temp48avg, :temp72avg, :condition24, :condition48, :condition72, :cloudiness24, :cloudiness48, :cloudiness72
+  attr_accessor :location, :response_code, :coordinates, :country, :location_name, :temp_avg, :temp_celsius, :condition, :cloudiness, :humidity, :wind_speed, :wind_direction, :report_time, :google_maps, :google_maps_link, :sunrise, :sunset, :hr24_dt, :hr48_dt, :hr72_dt, :temp24, :temp48, :temp72, :condition24, :condition48, :condition72, :cloudiness24, :cloudiness48, :cloudiness72, :humidity24, :humidity48, :humidity72, :wind_speed24, :wind_speed48, :wind_speed72, :wind_direction24, :wind_direction48, :wind_direction72
 
   def initialize
     @location = location
@@ -75,65 +75,60 @@ class Weatherbot::API < Helper
     forecast = self.new
 
     forecast.location_name = parsed["name"]
-    forecast.temp24avg = parsed["list"][6]["main"]["temp"]
-    forecast.temp48avg = parsed["list"][14]["main"]["temp"]
-    forecast.temp72avg = parsed["list"][22]["main"]["temp"]
+    # 24/48/72hr date
+    forecast.hr24_dt = parsed["list"][6]["dt_txt"]
+    forecast.hr48_dt = parsed["list"][14]["dt_txt"]
+    forecast.hr72_dt = parsed["list"][22]["dt_txt"]
+    # 24/48/72hr temp
+    forecast.temp24 = parsed["list"][6]["main"]["temp"]
+    forecast.temp48 = parsed["list"][14]["main"]["temp"]
+    forecast.temp72 = parsed["list"][22]["main"]["temp"]
+    # 24/48/72hr condition
     forecast.condition24 = parsed["list"][6]["weather"][0]["description"]
     forecast.condition48 = parsed["list"][14]["weather"][0]["description"]
     forecast.condition72 = parsed["list"][22]["weather"][0]["description"]
+    # 24/48/72hr cloudiness
     forecast.cloudiness24 = parsed["list"][6]["clouds"]["all"]
     forecast.cloudiness48 = parsed["list"][14]["clouds"]["all"]
     forecast.cloudiness72 = parsed["list"][22]["clouds"]["all"]
+    # 24/48/72hr humidity
     forecast.humidity24 = parsed["list"][6]["main"]["humidity"]
     forecast.humidity48 = parsed["list"][14]["main"]["humidity"]
     forecast.humidity72 = parsed["list"][22]["main"]["humidity"]
-    forecast.wind_speed = parsed["wind"]["speed"]
+    # 24/48/72hr wind speed & direction
+    forecast.wind_speed24 = parsed["list"][6]["wind"]["speed"]
+    forecast.wind_speed48 = parsed["list"][14]["wind"]["speed"]
+    forecast.wind_speed72 = parsed["list"][22]["wind"]["speed"]
+    forecast.wind_direction24 = degToCompass(parsed["list"][6]["wind"]["deg"])
+    forecast.wind_direction48 = degToCompass(parsed["list"][14]["wind"]["deg"])
+    forecast.wind_direction72 = degToCompass(parsed["list"][22]["wind"]["deg"])
 
-    wind_deg = parsed["wind"]["deg"]
-    temp_f = parsed["main"]["temp"]
-    forecast.wind_direction = degToCompass(wind_deg)
-    forecast.temp_celsius = toCelsius(temp_f)
+    forecast.temp_celsius24 = toCelsius(forecast.temp24)
+    forecast.temp_celsius48 = toCelsius(forecast.temp48)
+    forecast.temp_celsius72 = toCelsius(forecast.temp72)
 
     # Open query in browser to Google Maps
     forecast.google_maps = "https://www.google.com/maps/place/#{current.coordinates.gsub(" ", "")}"
     @google_maps_link = current.google_maps
 
-    # Check for odd locations with no country key
-    if parsed.fetch("sys").has_key?("country")
-      current.country = parsed["sys"]["country"]
-    else
-      current.country = nil
-    end
-
-    # Forecast hash every 24 hours up to 72hrs
-    forecast.hr24 = parsed["list"][6]
-    forecast.hr24_dt = parsed["list"][6]["dt_txt"]
-
-    forecast.hr48 = parsed["list"][14]
-    forecast.hr48_dt = parsed["list"][14]["dt_txt"]
-    forecast.hr72 = parsed["list"][22]
-    forecast.hr72_dt = parsed["list"][22]["dt_txt"]
-
     # Output 3 day forecast
     puts "\n\nTomorrow"
     puts "\nReport Time:      #{forecast.hr24_dt}"
-    puts "Location:         #{forecast.location_name}, #{forecast.country}"
-    puts "Coordinates:      #{forecast.coordinates}"
+    puts "Location:         #{forecast.location_name}"
     puts "Google Maps:      #{forecast.google_maps}"
-    puts "\nTemperature:      #{forecast.temp_avg}ºF / #{forecast.temp_celsius}ºC"
-    puts "Condition:        #{forecast.condition.capitalize}"
-    puts "Cloudiness:       #{forecast.cloudiness}%"
-    puts "\nHumidity:         #{forecast.humidity}%"
-    puts "Wind Speed:       #{forecast.wind_speed} mph"
-    puts "Wind Direction:   #{forecast.wind_direction}"
+    puts "\nTemperature:      #{forecast.temp24}ºF / #{forecast.temp_celsius}ºC"
+    puts "Condition:        #{forecast.condition24.capitalize}"
+    puts "Cloudiness:       #{forecast.cloudiness24}%"
+    puts "\nHumidity:         #{forecast.humidity24}%"
+    puts "Wind Speed:       #{forecast.wind_speed24} mph"
+    puts "Wind Direction:   #{forecast.wind_direction24}"
 
     puts "\n-------------------------------\n"
     puts "\n\nIn 48 Hours:"
     puts "\nReport Time:      #{forecast.hr48_dt}"
-    puts "Location:         #{forecast.location_name}, #{forecast.country}"
-    puts "Coordinates:      #{forecast.coordinates}"
+    puts "Location:         #{forecast.location_name}"
     puts "Google Maps:      #{forecast.google_maps}"
-    puts "\nTemperature:      #{forecast.temp_avg}ºF / #{forecast.temp_celsius}ºC"
+    puts "\nTemperature:      #{forecast.temp48}ºF / #{forecast.temp_celsius}ºC"
     puts "Condition:        #{forecast.condition.capitalize}"
     puts "Cloudiness:       #{forecast.cloudiness}%"
     puts "\nHumidity:         #{forecast.humidity}%"
