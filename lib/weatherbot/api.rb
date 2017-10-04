@@ -1,6 +1,6 @@
 
 class Weatherbot::API < Helper
-  attr_accessor :google_maps_link, :location, :response_code, :coordinates, :country, :location_name, :temp_avg, :temp_celsius, :condition, :cloudiness, :humidity, :wind_speed, :wind_direction, :report_time, :google_maps, :sunrise, :sunset, :hr24, :hr24_dt, :hr48, :hr48_dt, :hr72, :hr72_dt, :google_maps_link
+  attr_accessor :location, :response_code, :coordinates, :country, :location_name, :temp_avg, :temp_celsius, :condition, :cloudiness, :humidity, :wind_speed, :wind_direction, :report_time, :google_maps, :google_maps_link, :sunrise, :sunset, :hr24, :hr24_dt, :hr48, :hr48_dt, :hr72, :hr72_dt, :temp24avg, :temp48avg, :temp72avg, :condition24, :condition48, :condition72, :cloudiness24, :cloudiness48, :cloudiness72
 
   def initialize
     @location = location
@@ -84,10 +84,10 @@ class Weatherbot::API < Helper
     forecast.cloudiness24 = parsed["list"][6]["clouds"]["all"]
     forecast.cloudiness48 = parsed["list"][14]["clouds"]["all"]
     forecast.cloudiness72 = parsed["list"][22]["clouds"]["all"]
-    forecast.humidity = parsed["main"]["humidity"]
+    forecast.humidity24 = parsed["list"][6]["main"]["humidity"]
+    forecast.humidity48 = parsed["list"][14]["main"]["humidity"]
+    forecast.humidity72 = parsed["list"][22]["main"]["humidity"]
     forecast.wind_speed = parsed["wind"]["speed"]
-    forecast.sunrise = Time.at(parsed["sys"]["sunrise"])
-    forecast.sunset = Time.at(parsed["sys"]["sunset"])
 
     wind_deg = parsed["wind"]["deg"]
     temp_f = parsed["main"]["temp"]
@@ -126,8 +126,6 @@ class Weatherbot::API < Helper
     puts "\nHumidity:         #{forecast.humidity}%"
     puts "Wind Speed:       #{forecast.wind_speed} mph"
     puts "Wind Direction:   #{forecast.wind_direction}"
-    puts "\nSunrise:          #{forecast.sunrise}"
-    puts "Sunset:           #{forecast.sunset}"
 
     puts "\n-------------------------------\n"
     puts "\n\nIn 48 Hours:"
@@ -141,8 +139,6 @@ class Weatherbot::API < Helper
     puts "\nHumidity:         #{forecast.humidity}%"
     puts "Wind Speed:       #{forecast.wind_speed} mph"
     puts "Wind Direction:   #{forecast.wind_direction}"
-    puts "\nSunrise:          #{forecast.sunrise}"
-    puts "Sunset:           #{forecast.sunset}"
 
     puts "\n-------------------------------\n"
     puts "\n\nIn 72 Hours:"
@@ -156,8 +152,6 @@ class Weatherbot::API < Helper
     puts "\nHumidity:         #{forecast.humidity}%"
     puts "Wind Speed:       #{forecast.wind_speed} mph"
     puts "Wind Direction:   #{forecast.wind_direction}"
-    puts "\nSunrise:          #{forecast.sunrise}"
-    puts "Sunset:           #{forecast.sunset}"
 
   end
 
