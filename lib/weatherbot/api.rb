@@ -47,7 +47,7 @@ class Weatherbot::API < Helper
       @current.country = nil
     end
 
-      puts "\nReport Time:      #{@current.report_time}"
+      puts "\n\nReport Time:      #{@current.report_time}"
       puts "Location:         #{@current.location_name}, #{@current.country}"
       puts "Coordinates:      #{@current.coordinates}"
       puts "Google Maps:      #{@current.google_maps}"
@@ -105,7 +105,7 @@ class Weatherbot::API < Helper
 
     # Output 3 day forecast
     puts "\n-------------------------------\n"
-    puts "\n\In 24 Hours:"
+    puts "\n\nIn 24 Hours:"
     puts "\nReport Time:      #{forecast.hr24_dt}"
     puts "Location:         #{forecast.location_name},  #{@current.country}"
     puts "Google Maps:      #{forecast.google_maps}"
