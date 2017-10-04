@@ -36,7 +36,7 @@ class Weatherbot::CLI
     while input != "exit"
 
       puts "\n-------------------------------\n"
-      puts "\nPlease enter a specific location in the format: <location>, <country> to check the current weather conditions for that location. You can also search by <location>, <state>, <country>, OR  <zipcode>, US, to find the correct specific location.
+      puts "\nPlease enter a specific location in the format: <location>, <country> to check the current weather conditions for that location. You can also search by <location>, <state/region>, <country> to find the correct specific location.
       \nType 'map' to open the most relevant result in your OS default browser.
       \n*NOTE: This will open your web browser to the most likely location coordinates in Google Maps.*
       \nYou can also type 'forecast' to display the 3 day forecast of the most recent search. To quit, type 'exit'.\n"
