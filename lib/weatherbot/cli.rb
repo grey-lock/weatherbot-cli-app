@@ -3,7 +3,6 @@
 class Weatherbot::CLI
 
   def call
-    sleep(1)
     puts "
            __   __  ___           ___   __   __   __
           |  | |  ||   |         |   | |  | |  |_|  |
@@ -21,7 +20,6 @@ class Weatherbot::CLI
           |__| |__||_______||__| |__|  |___|  |__| |__||_______||___|  |_||_______||_______|  |___|  |__|
 
           "
-
     sleep(1)
 
     intro
@@ -32,18 +30,8 @@ class Weatherbot::CLI
     puts "\n\nI'm a command line interface Ruby gem that gives you current and forecast weather for any location in the world!\n\n"
   end
 
-  # def list_popular_cities
-  #   puts ""
-  #   puts "Choose from the list of cities below:"
-  #   puts ""
-  #   # list popular cities
-  #   @cities = Weatherbot::OpenweatherAPI.popular_cities
-  # end
-
   def menu
     input = nil
-
-    # list_popular_cities
 
     while input != "exit"
 
