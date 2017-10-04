@@ -8,7 +8,6 @@ class Weatherbot::API < Helper
     @google_maps_link = google_maps_link
   end
 
-
   # Takes user input to enter into URL query & gets current weather conditions in imperial units
   def self.current_weather(location)
     # query sample: 'https://api.openweathermap.org/data/2.5/weather?q=new+york&appid=3207703ee5d0d14e6b6a53d10071018f&units=imperial'
@@ -22,7 +21,7 @@ class Weatherbot::API < Helper
       puts "\n\nInvalid location, please enter a valid location.\n\n"
       return
     else
-
+      # Assign attributes to current weather object
     @current.coordinates = parsed["coord"].values.reverse.join(", ")
     @current.location_name = parsed["name"]
     @current.report_time = Time.at(parsed["dt"])
@@ -34,11 +33,8 @@ class Weatherbot::API < Helper
     @current.wind_speed = parsed["wind"]["speed"]
     @current.sunrise = Time.at(parsed["sys"]["sunrise"])
     @current.sunset = Time.at(parsed["sys"]["sunset"])
-
-    wind_deg = parsed["wind"]["deg"]
-    temp_f = parsed["main"]["temp"]
-    @current.wind_direction = degToCompass(wind_deg)
-    @current.temp_celsius = toCelsius(temp_f)
+    @current.wind_direction = degToCompass(parsed["wind"]["deg"])
+    @current.temp_celsius = toCelsius(parsed["main"]["temp"])
 
     # Open query in browser to Google Maps
     @current.google_maps = "https://www.google.com/maps/place/#{@current.coordinates.gsub(" ", "")}"
@@ -76,32 +72,32 @@ class Weatherbot::API < Helper
 
     forecast.location_name = @current.location_name
     # 24/48/72hr date
-    forecast.hr24_dt = parsed["list"][6]["dt_txt"]
-    forecast.hr48_dt = parsed["list"][14]["dt_txt"]
-    forecast.hr72_dt = parsed["list"][22]["dt_txt"]
+    forecast.hr24_dt = parsed["list"][8]["dt_txt"]
+    forecast.hr48_dt = parsed["list"][16]["dt_txt"]
+    forecast.hr72_dt = parsed["list"][24]["dt_txt"]
     # 24/48/72hr temp
-    forecast.temp24 = parsed["list"][6]["main"]["temp"]
-    forecast.temp48 = parsed["list"][14]["main"]["temp"]
-    forecast.temp72 = parsed["list"][22]["main"]["temp"]
+    forecast.temp24 = parsed["list"][8]["main"]["temp"]
+    forecast.temp48 = parsed["list"][16]["main"]["temp"]
+    forecast.temp72 = parsed["list"][24]["main"]["temp"]
     # 24/48/72hr condition
-    forecast.condition24 = parsed["list"][6]["weather"][0]["description"]
-    forecast.condition48 = parsed["list"][14]["weather"][0]["description"]
-    forecast.condition72 = parsed["list"][22]["weather"][0]["description"]
+    forecast.condition24 = parsed["list"][8]["weather"][0]["description"]
+    forecast.condition48 = parsed["list"][16]["weather"][0]["description"]
+    forecast.condition72 = parsed["list"][24]["weather"][0]["description"]
     # 24/48/72hr cloudiness
-    forecast.cloudiness24 = parsed["list"][6]["clouds"]["all"]
-    forecast.cloudiness48 = parsed["list"][14]["clouds"]["all"]
-    forecast.cloudiness72 = parsed["list"][22]["clouds"]["all"]
+    forecast.cloudiness24 = parsed["list"][8]["clouds"]["all"]
+    forecast.cloudiness48 = parsed["list"][16]["clouds"]["all"]
+    forecast.cloudiness72 = parsed["list"][24]["clouds"]["all"]
     # 24/48/72hr humidity
-    forecast.humidity24 = parsed["list"][6]["main"]["humidity"]
-    forecast.humidity48 = parsed["list"][14]["main"]["humidity"]
-    forecast.humidity72 = parsed["list"][22]["main"]["humidity"]
+    forecast.humidity24 = parsed["list"][8]["main"]["humidity"]
+    forecast.humidity48 = parsed["list"][16]["main"]["humidity"]
+    forecast.humidity72 = parsed["list"][24]["main"]["humidity"]
     # 24/48/72hr wind speed & direction
-    forecast.wind_speed24 = parsed["list"][6]["wind"]["speed"]
-    forecast.wind_speed48 = parsed["list"][14]["wind"]["speed"]
-    forecast.wind_speed72 = parsed["list"][22]["wind"]["speed"]
-    forecast.wind_direction24 = degToCompass(parsed["list"][6]["wind"]["deg"])
-    forecast.wind_direction48 = degToCompass(parsed["list"][14]["wind"]["deg"])
-    forecast.wind_direction72 = degToCompass(parsed["list"][22]["wind"]["deg"])
+    forecast.wind_speed24 = parsed["list"][8]["wind"]["speed"]
+    forecast.wind_speed48 = parsed["list"][16]["wind"]["speed"]
+    forecast.wind_speed72 = parsed["list"][24]["wind"]["speed"]
+    forecast.wind_direction24 = degToCompass(parsed["list"][8]["wind"]["deg"])
+    forecast.wind_direction48 = degToCompass(parsed["list"][16]["wind"]["deg"])
+    forecast.wind_direction72 = degToCompass(parsed["list"][24]["wind"]["deg"])
 
     # Open query in browser to Google Maps
     forecast.google_maps = "https://www.google.com/maps/place/#{@current.coordinates.gsub(" ", "")}"
@@ -109,9 +105,9 @@ class Weatherbot::API < Helper
 
     # Output 3 day forecast
     puts "\n-------------------------------\n"
-    puts "\n\nTomorrow:"
+    puts "\n\In 24 Hours:"
     puts "\nReport Time:      #{forecast.hr24_dt}"
-    puts "Location:         #{forecast.location_name}"
+    puts "Location:         #{forecast.location_name},  #{@current.country}"
     puts "Google Maps:      #{forecast.google_maps}"
     puts "\nTemperature:      #{forecast.temp24}ºF / #{toCelsius(forecast.temp24)}ºC"
     puts "Condition:        #{forecast.condition24.capitalize}"
@@ -123,7 +119,7 @@ class Weatherbot::API < Helper
     puts "\n-------------------------------\n"
     puts "\n\nIn 48 Hours:"
     puts "\nReport Time:      #{forecast.hr48_dt}"
-    puts "Location:         #{forecast.location_name}"
+    puts "Location:         #{forecast.location_name},  #{@current.country}"
     puts "Google Maps:      #{forecast.google_maps}"
     puts "\nTemperature:      #{forecast.temp48}ºF / #{toCelsius(forecast.temp48)}ºC"
     puts "Condition:        #{forecast.condition48.capitalize}"
@@ -135,8 +131,7 @@ class Weatherbot::API < Helper
     puts "\n-------------------------------\n"
     puts "\n\nIn 72 Hours:"
     puts "\nReport Time:      #{forecast.hr72_dt}"
-    puts "Location:         #{forecast.location_name}, #{forecast.country}"
-    puts "Coordinates:      #{forecast.coordinates}"
+    puts "Location:         #{forecast.location_name}, #{@current.country}"
     puts "Google Maps:      #{forecast.google_maps}"
     puts "\nTemperature:      #{forecast.temp72}ºF / #{toCelsius(forecast.temp72)}ºC"
     puts "Condition:        #{forecast.condition72.capitalize}"
