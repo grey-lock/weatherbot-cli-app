@@ -4,8 +4,6 @@ class Weatherbot::API < Helper
 
   def initialize
     @location = location
-    @coordinates = coordinates
-    @google_maps_link = google_maps_link
   end
 
   # Takes user input to enter into URL query & gets current weather conditions in imperial units
