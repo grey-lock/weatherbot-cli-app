@@ -50,6 +50,11 @@ class Weatherbot::CLI
         exit
       end
 
+      if input === "forecast" || input === "map"
+        puts "\nYou need to input a location first!\n"
+        menu
+      end
+
       Weatherbot::API.current_weather(input)
 
       new_input = gets.chomp.downcase
@@ -59,7 +64,7 @@ class Weatherbot::CLI
         puts "\n\n\nSee you again soon!\n\n\n"
         exit
       end
-
+      # Display location map or forecast
       if new_input === "forecast"
         Weatherbot::API.forecast(input)
       elsif new_input === "map"
