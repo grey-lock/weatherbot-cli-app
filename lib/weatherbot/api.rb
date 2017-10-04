@@ -13,46 +13,42 @@ class Weatherbot::API
   def self.current_weather(location)
     # query sample: 'https://api.openweathermap.org/data/2.5/weather?q=new+york&appid=3207703ee5d0d14e6b6a53d10071018f&units=imperial'
     response = HTTParty.get("https://api.openweathermap.org/data/2.5/weather?q=#{location}&appid=3207703ee5d0d14e6b6a53d10071018f&units=imperial")
-
-    parsed_weather = response.parsed_response
-    current_conditions = self.new
-    current_conditions.response_code = parsed_weather["cod"]
+    parsed = response.parsed_response
+    current = self.new
+    current.response_code = parsed["cod"]
 
     # Check for invalid entry
-    if current_conditions.response_code === "404"
+    if current.response_code === "404"
       puts "\n\nInvalid location, please enter a valid location.\n\n"
       return
     else
 
-    current_conditions.coordinates = parsed_weather["coord"].values.reverse.join(", ")
-    current_conditions.location_name = parsed_weather["name"]
-    current_conditions.report_time = Time.at(parsed_weather["dt"])
+    current.coordinates = parsed["coord"].values.reverse.join(", ")
+    current.location_name = parsed["name"]
+    current.report_time = Time.at(parsed["dt"])
 
     # Open query in browser to Google Maps
-    current_conditions.google_maps = "https://www.google.com/maps/place/#{current_conditions.coordinates.gsub(" ", "")}"
-    @google_maps_link = current_conditions.google_maps
+    current.google_maps = "https://www.google.com/maps/place/#{current.coordinates.gsub(" ", "")}"
+    @google_maps_link = current.google_maps
 
-    current_conditions.temp_avg = parsed_weather["main"]["temp"]
-    current_conditions.condition = parsed_weather["weather"].first["description"]
-    current_conditions.cloudiness = parsed_weather["clouds"]["all"]
-
-    # current_conditions.pressure = parsed_weather["main"]["pressure"]
-
-    current_conditions.humidity = parsed_weather["main"]["humidity"]
-    current_conditions.wind_speed = parsed_weather["wind"]["speed"]
-
-    current_conditions.sunrise = Time.at(parsed_weather["sys"]["sunrise"])
-    current_conditions.sunset = Time.at(parsed_weather["sys"]["sunset"])
+    current.temp_avg = parsed["main"]["temp"]
+    current.condition = parsed["weather"].first["description"]
+    current.cloudiness = parsed["clouds"]["all"]
+    # current.pressure = parsed["main"]["pressure"]
+    current.humidity = parsed["main"]["humidity"]
+    current.wind_speed = parsed["wind"]["speed"]
+    current.sunrise = Time.at(parsed["sys"]["sunrise"])
+    current.sunset = Time.at(parsed["sys"]["sunset"])
 
     # Check for odd locations with no country key
-    if parsed_weather.fetch("sys").has_key?("country")
-      current_conditions.country = parsed_weather["sys"]["country"]
+    if parsed.fetch("sys").has_key?("country")
+      current.country = parsed["sys"]["country"]
     else
-      current_conditions.country = nil
+      current.country = nil
     end
 
-    wind_deg = parsed_weather["wind"]["deg"]
-    temp_f = parsed_weather["main"]["temp"]
+    wind_deg = parsed["wind"]["deg"]
+    temp_f = parsed["main"]["temp"]
 
     # Helper function to convert degrees to wind direction
     def self.degToCompass(wind_deg)
@@ -66,23 +62,23 @@ class Weatherbot::API
       ((temp_f - 32) * (5.0 / 9.0)).round(2)
     end
 
-    current_conditions.wind_direction = self.degToCompass(wind_deg)
-    current_conditions.temp_celsius = self.toCelsius(temp_f)
+    current.wind_direction = self.degToCompass(wind_deg)
+    current.temp_celsius = self.toCelsius(temp_f)
 
-      puts "\nReport Time:      #{current_conditions.report_time}"
-      puts "Location:         #{current_conditions.location_name}, #{current_conditions.country}"
-      puts "Coordinates:      #{current_conditions.coordinates}"
-      puts "Google Maps:      #{current_conditions.google_maps}"
-      puts "\nTemperature:      #{current_conditions.temp_avg}ºF / #{current_conditions.temp_celsius}ºC"
-      puts "Condition:        #{current_conditions.condition.capitalize}"
-      puts "Cloudiness:       #{current_conditions.cloudiness}%"
+      puts "\nReport Time:      #{current.report_time}"
+      puts "Location:         #{current.location_name}, #{current.country}"
+      puts "Coordinates:      #{current.coordinates}"
+      puts "Google Maps:      #{current.google_maps}"
+      puts "\nTemperature:      #{current.temp_avg}ºF / #{current.temp_celsius}ºC"
+      puts "Condition:        #{current.condition.capitalize}"
+      puts "Cloudiness:       #{current.cloudiness}%"
 
-      puts "\nHumidity:         #{current_conditions.humidity}%"
-      puts "Wind Speed:       #{current_conditions.wind_speed} mph"
-      puts "Wind Direction:   #{current_conditions.wind_direction}"
+      puts "\nHumidity:         #{current.humidity}%"
+      puts "Wind Speed:       #{current.wind_speed} mph"
+      puts "Wind Direction:   #{current.wind_direction}"
 
-      puts "\nSunrise:          #{current_conditions.sunrise}"
-      puts "Sunset:           #{current_conditions.sunset}"
+      puts "\nSunrise:          #{current.sunrise}"
+      puts "Sunset:           #{current.sunset}"
     end
   end
 
@@ -91,17 +87,17 @@ class Weatherbot::API
   def self.forecast(location)
     # query sample: https://api.openweathermap.org/data/2.5/forecast?q=new+york&appid=3207703ee5d0d14e6b6a53d10071018f&units=imperial
     response = HTTParty.get("https://api.openweathermap.org/data/2.5/forecast?q=#{location}&appid=3207703ee5d0d14e6b6a53d10071018f&units=imperial")
-    parsed_forecast = response.parsed_response
+    parsed = response.parsed_response
     forecast = self.new
 
     # Forecast hash every 12 hours up to 72hrs
 
-    forecast.hr24 = parsed_forecast["list"][6]
-    forecast.hr24_dt = parsed_forecast["list"][6]["dt_txt"]
-    forecast.hr48 = parsed_forecast["list"][14]
-    forecast.hr48_dt = parsed_forecast["list"][14]["dt_txt"]
-    forecast.hr72 = parsed_forecast["list"][22]
-    forecast.hr72_dt = parsed_forecast["list"][22]["dt_txt"]
+    forecast.hr24 = parsed["list"][6]
+    forecast.hr24_dt = parsed["list"][6]["dt_txt"]
+    forecast.hr48 = parsed["list"][14]
+    forecast.hr48_dt = parsed["list"][14]["dt_txt"]
+    forecast.hr72 = parsed["list"][22]
+    forecast.hr72_dt = parsed["list"][22]["dt_txt"]
 
     puts forecast.hr24_dt
     puts forecast.hr24
@@ -124,27 +120,6 @@ class Weatherbot::API
       system "xdg-open #{link}"
     end
   end
-  # def self.popular_cities
-  #   # List 10 popular cities
-  #   # format: City name, Country Code
-  #
-  #   puts "-------------------------------"
-  #   puts ""
-  #   puts "1. London, United Kingdom"
-  #   puts "2. New York City, United States"
-  #   puts "3. Shanghai, China"
-  #   puts "4. Tokyo, Japan"
-  #   puts "5. Berlin, Germany"
-  #   puts "6. Lagos, Nigeria"
-  #   puts "7. Istanbul, Turkey"
-  #   puts "8. Mumbai, India"
-  #   puts "9. Moscow, Russia"
-  #   puts "10. São Paulo, Brazil"
-  #   puts ""
-  #   puts "-------------------------------"
-  #
-  #
-  # end
 
 
 end
