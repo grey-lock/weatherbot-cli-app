@@ -7,10 +7,10 @@ Gem::Specification.new do |spec|
   spec.name          = "weatherbot"
   spec.version       = Weatherbot::VERSION
   spec.authors       = ["Janusz Szubert"]
-  spec.email         = ["TheInvalidNonce@users.noreply.github.com"]
+  spec.email         = ["TheInvalidNonce@gmail.com"]
 
   spec.summary       = %q{A Ruby CLI wrapper using the OpenWeatherMap.org API}
-  spec.description   = %q{A Ruby CLI wrapper using the OpenWeatherMap.org API with interactive features that allow you to search by City, Country and also gives you a current and 3 day forecast.}
+  spec.description   = %q{A Ruby CLI wrapper using the OpenWeatherMap.org API with interactive features that allow you to search any location's current weather and 3 day forecast.}
   spec.homepage      = "https://github.com/TheInvalidNonce/weatherbot-cli-app"
   spec.license       = "MIT"
 

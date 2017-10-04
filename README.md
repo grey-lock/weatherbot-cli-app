@@ -2,7 +2,7 @@
 
 Welcome to your new gem! In this directory, you'll find the files you need to be able to package up your Ruby library into a gem. Put your Ruby code in the file `lib/weatherbot`. To experiment with that code, run `bin/console` for an interactive prompt.
 
-TODO: Delete this and the text above, and describe your gem
+A Ruby CLI wrapper using the OpenWeatherMap.org API with interactive features that allow you to search any location's current weather, quick link to the map in Google Maps, and also display the 3 day forecast.
 
 ## Installation
 
@@ -21,8 +21,16 @@ Or install it yourself as:
     $ gem install weatherbot
 
 ## Usage
+Start by typing 'weatherbot'
 
-TODO: Write usage instructions here
+Enter a specific location in the format: <location>, <country> to check the current weather conditions for that location. You can also search by <location>, <state>, <country>, OR  <zipcode>, US, to find the correct specific location.
+
+Type 'map' to open the most relevant result in your OS's default browser.
+NOTE: This will open your web browser to the most likely location coordinates in Google Maps.
+
+You can also type 'forecast' to display the 3 day forecast of the most recent search.
+
+To quit, type 'exit'.
 
 ## Development
 
