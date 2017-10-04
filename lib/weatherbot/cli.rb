@@ -71,6 +71,9 @@ class Weatherbot::CLI
       elsif new_input === "map"
         Weatherbot::API.open_link
         menu
+      else
+        input = nil
+        menu
       end
 
       end
