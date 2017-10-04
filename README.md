@@ -21,7 +21,7 @@ Or install it yourself as:
 ## Usage
 Start by typing 'weatherbot'
 
-Enter a specific location in the format: <location>, <country> to check the current weather conditions for that location. You can also search by <location>, \<state\>, \<country\>, OR  \<zipcode\>, US, to find the correct specific location.
+Enter a specific location in the format: <location>, <country> to check the current weather conditions for that location. You can also search by <\location\>, \<state or region\> (if needed), \<country\>, \<zipcode\>, US to find the correct specific location.
 
 Type 'map' to open the most relevant result in your OS's default browser.
 NOTE: This will open your web browser to the most likely location coordinates in Google Maps.
