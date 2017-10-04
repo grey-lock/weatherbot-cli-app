@@ -72,11 +72,9 @@ class Weatherbot::API
       puts "\nTemperature:      #{current.temp_avg}ºF / #{current.temp_celsius}ºC"
       puts "Condition:        #{current.condition.capitalize}"
       puts "Cloudiness:       #{current.cloudiness}%"
-
       puts "\nHumidity:         #{current.humidity}%"
       puts "Wind Speed:       #{current.wind_speed} mph"
       puts "Wind Direction:   #{current.wind_direction}"
-
       puts "\nSunrise:          #{current.sunrise}"
       puts "Sunset:           #{current.sunset}"
     end
@@ -90,7 +88,7 @@ class Weatherbot::API
     parsed = response.parsed_response
     forecast = self.new
 
-    # Forecast hash every 12 hours up to 72hrs
+    # Forecast hash every 24 hours up to 72hrs
 
     forecast.hr24 = parsed["list"][6]
     forecast.hr24_dt = parsed["list"][6]["dt_txt"]
@@ -99,13 +97,50 @@ class Weatherbot::API
     forecast.hr72 = parsed["list"][22]
     forecast.hr72_dt = parsed["list"][22]["dt_txt"]
 
-    puts forecast.hr24_dt
-    puts forecast.hr24
-    puts forecast.hr48_dt
-    puts forecast.hr48
-    puts forecast.hr72_dt
-    puts forecast.hr72
+    # Output 3 day forecast
+    puts "\n\nTomorrow"
+    puts "\nReport Time:      #{forecast.hr24_dt}"
+    puts "Location:         #{forecast.location_name}, #{forecast.country}"
+    puts "Coordinates:      #{forecast.coordinates}"
+    puts "Google Maps:      #{forecast.google_maps}"
+    puts "\nTemperature:      #{forecast.temp_avg}ºF / #{forecast.temp_celsius}ºC"
+    puts "Condition:        #{forecast.condition.capitalize}"
+    puts "Cloudiness:       #{forecast.cloudiness}%"
+    puts "\nHumidity:         #{forecast.humidity}%"
+    puts "Wind Speed:       #{forecast.wind_speed} mph"
+    puts "Wind Direction:   #{forecast.wind_direction}"
+    puts "\nSunrise:          #{forecast.sunrise}"
+    puts "Sunset:           #{forecast.sunset}"
 
+    puts "\n-------------------------------\n"
+    puts "\n\nIn 48 Hours:"
+    puts "\nReport Time:      #{forecast.hr48_dt}"
+    puts "Location:         #{forecast.location_name}, #{forecast.country}"
+    puts "Coordinates:      #{forecast.coordinates}"
+    puts "Google Maps:      #{forecast.google_maps}"
+    puts "\nTemperature:      #{forecast.temp_avg}ºF / #{forecast.temp_celsius}ºC"
+    puts "Condition:        #{forecast.condition.capitalize}"
+    puts "Cloudiness:       #{forecast.cloudiness}%"
+    puts "\nHumidity:         #{forecast.humidity}%"
+    puts "Wind Speed:       #{forecast.wind_speed} mph"
+    puts "Wind Direction:   #{forecast.wind_direction}"
+    puts "\nSunrise:          #{forecast.sunrise}"
+    puts "Sunset:           #{forecast.sunset}"
+
+    puts "\n-------------------------------\n"
+    puts "\n\nIn 72 Hours:"
+    puts "\nReport Time:      #{forecast.hr72_dt}"
+    puts "Location:         #{forecast.location_name}, #{forecast.country}"
+    puts "Coordinates:      #{forecast.coordinates}"
+    puts "Google Maps:      #{forecast.google_maps}"
+    puts "\nTemperature:      #{forecast.temp_avg}ºF / #{forecast.temp_celsius}ºC"
+    puts "Condition:        #{forecast.condition.capitalize}"
+    puts "Cloudiness:       #{forecast.cloudiness}%"
+    puts "\nHumidity:         #{forecast.humidity}%"
+    puts "Wind Speed:       #{forecast.wind_speed} mph"
+    puts "Wind Direction:   #{forecast.wind_direction}"
+    puts "\nSunrise:          #{forecast.sunrise}"
+    puts "Sunset:           #{forecast.sunset}"
 
   end
 
