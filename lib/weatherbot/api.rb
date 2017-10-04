@@ -1,5 +1,5 @@
 
-class Weatherbot::API
+class Weatherbot::API < Helper
   attr_accessor :google_maps_link, :location, :response_code, :coordinates, :country, :location_name, :temp_avg, :temp_celsius, :condition, :cloudiness, :humidity, :wind_speed, :wind_direction, :report_time, :google_maps, :sunrise, :sunset, :hr24, :hr24_dt, :hr48, :hr48_dt, :hr72, :hr72_dt, :google_maps_link
 
   def initialize
@@ -26,11 +26,6 @@ class Weatherbot::API
     current.coordinates = parsed["coord"].values.reverse.join(", ")
     current.location_name = parsed["name"]
     current.report_time = Time.at(parsed["dt"])
-
-    # Open query in browser to Google Maps
-    current.google_maps = "https://www.google.com/maps/place/#{current.coordinates.gsub(" ", "")}"
-    @google_maps_link = current.google_maps
-
     current.temp_avg = parsed["main"]["temp"]
     current.condition = parsed["weather"].first["description"]
     current.cloudiness = parsed["clouds"]["all"]
@@ -40,30 +35,21 @@ class Weatherbot::API
     current.sunrise = Time.at(parsed["sys"]["sunrise"])
     current.sunset = Time.at(parsed["sys"]["sunset"])
 
+    wind_deg = parsed["wind"]["deg"]
+    temp_f = parsed["main"]["temp"]
+    current.wind_direction = degToCompass(wind_deg)
+    current.temp_celsius = toCelsius(temp_f)
+
+    # Open query in browser to Google Maps
+    current.google_maps = "https://www.google.com/maps/place/#{current.coordinates.gsub(" ", "")}"
+    @google_maps_link = current.google_maps
+    
     # Check for odd locations with no country key
     if parsed.fetch("sys").has_key?("country")
       current.country = parsed["sys"]["country"]
     else
       current.country = nil
     end
-
-    wind_deg = parsed["wind"]["deg"]
-    temp_f = parsed["main"]["temp"]
-
-    # Helper function to convert degrees to wind direction
-    def self.degToCompass(wind_deg)
-      val = ((wind_deg.to_f / 22.5) + 0.5).floor
-      direction_arr = ["N", "NNE", "NE", "ENE", "E", "ESE", "SE", "SSE", "S", "SSW", "SW", "WSW", "W", "WNW", "NW", "NNW"]
-      return direction_arr[(val % 16)]
-    end
-
-    # Helper function to convert to Celsius
-    def self.toCelsius(temp_f)
-      ((temp_f - 32) * (5.0 / 9.0)).round(2)
-    end
-
-    current.wind_direction = self.degToCompass(wind_deg)
-    current.temp_celsius = self.toCelsius(temp_f)
 
       puts "\nReport Time:      #{current.report_time}"
       puts "Location:         #{current.location_name}, #{current.country}"
@@ -89,7 +75,6 @@ class Weatherbot::API
     forecast = self.new
 
     # Forecast hash every 24 hours up to 72hrs
-
     forecast.hr24 = parsed["list"][6]
     forecast.hr24_dt = parsed["list"][6]["dt_txt"]
     forecast.hr48 = parsed["list"][14]
