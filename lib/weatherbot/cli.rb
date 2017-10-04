@@ -62,7 +62,7 @@ class Weatherbot::CLI
         exit
       end
 
-      Weatherbot::OpenweatherAPI.current_weather(input)
+      Weatherbot::API.current_weather(input)
 
       new_input = gets.chomp.downcase
 
@@ -73,9 +73,9 @@ class Weatherbot::CLI
       end
 
       if new_input === "forecast"
-        Weatherbot::OpenweatherAPI.forecast(input)
+        Weatherbot::API.forecast(input)
       elsif new_input === "map"
-        Weatherbot::OpenweatherAPI.open_link
+        Weatherbot::API.open_link
       end
 
       end

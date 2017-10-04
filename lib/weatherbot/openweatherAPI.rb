@@ -1,4 +1,4 @@
-class Weatherbot::OpenweatherAPI
+class Weatherbot::API
   attr_accessor :google_maps_link, :location, :response_code, :coordinates, :country, :location_name, :temp_avg, :temp_celsius, :condition, :cloudiness, :humidity, :wind_speed, :wind_direction, :report_time, :google_maps, :sunrise, :sunset, :tonight, :tmrw_day, :tmrw_night, :second_day, :second_night, :third_day, :third_night, :tonight_dt, :tmrw_day_dt, :tmrw_night_dt, :google_maps_link
 
   def initialize
@@ -43,7 +43,7 @@ class Weatherbot::OpenweatherAPI
     current_conditions.sunrise = Time.at(parsed_weather["sys"]["sunrise"])
     current_conditions.sunset = Time.at(parsed_weather["sys"]["sunset"])
 
-    # Check for strange locations with no country key
+    # Check for odd locations with no country key
     if parsed_weather.fetch("sys").has_key?("country")
       current_conditions.country = parsed_weather["sys"]["country"]
     else
