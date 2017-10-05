@@ -1,5 +1,5 @@
 require 'httparty'
-require 'pry'
+# require 'pry'
 
 require_relative "./weatherbot/version"
 require_relative "./weatherbot/cli"
