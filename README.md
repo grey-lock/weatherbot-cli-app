@@ -19,16 +19,29 @@ Or install it yourself as:
     $ gem install weatherbot
 
 ## Usage
-Start by typing 'weatherbot'
+Weatherbot is a Ruby gem that utilizes OpenWeatherMap’s API to retrieve current and forecast weather conditions based on a user’s input.
 
-Enter a specific location in the format: <location>, <country> to check the current weather conditions for that location. You can also search by \<location\>, \<state or region\> (if needed), \<country\> OR \<zipcode\>, US to find the correct specific location.
+You will be prompted to enter a location. Anywhere works, the API responds to almost any entry, even if it is misspelled. 
 
-Type 'map' to open the most relevant result in your OS's default browser.
-NOTE: This will open your web browser to the most likely location coordinates in Google Maps.
+Many popular locations will work. In order to get the most accurate results, typing in <location>, <country> will work in almost every query.
 
-You can also type 'forecast' to display the 3 day forecast of the most recent search.
+The data is outputted to the terminal and shows:
 
-To quit, type 'exit'.
+- The Report Time and the timezone your computer is in
+- The API response best guess of the location you typed with the country code
+- The coordinates of the weather station that returned the data
+- A google maps link to the coordinates
+- Current temperature & conditions
+- Cloudiness
+- Humidity
+- Wind Speed & Direction
+- Sunrise and Sunset
+
+You can type ‘forecast’ to display the results’ 3 days weather forecast in 24 hour intervals.
+
+After typing in a location, you can type ‘map’ to open your OS browser to the Google Maps coordinates of the result.
+
+To quit the program type ‘exit’.
 
 ## Development
 
