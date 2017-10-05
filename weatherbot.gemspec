@@ -27,7 +27,7 @@ Gem::Specification.new do |spec|
     f.match(%r{^(test|spec|features)/})
   end
   spec.bindir        = "bin"
-  spec.executables   = ['weatherbot']#spec.files.grep(%r{^exe/}) { |f| File.basename(f) }
+  spec.executables   = ['weatherbot']
   spec.require_paths = ["lib"]
 
   spec.add_development_dependency "bundler", "~> 1.15"
