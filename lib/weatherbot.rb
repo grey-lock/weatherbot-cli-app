@@ -1,7 +1,7 @@
 require 'httparty'
 # require 'pry'
 
-require_relative "./weatherbot/version"
-require_relative "./weatherbot/cli"
-require_relative "./weatherbot/helper"
-require_relative "./weatherbot/api"
+require_relative "./version"
+require_relative "./cli"
+require_relative "./helper"
+require_relative "./api"
