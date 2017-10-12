@@ -1,4 +1,4 @@
-require 'httparty'
+# require 'httparty'
 # require 'pry'
 
 require_relative "./version"
