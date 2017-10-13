@@ -1,5 +1,7 @@
-# require 'httparty'
+require 'httparty'
 # require 'pry'
+require 'bundler/setup'
+Bundler.require
 
 require_relative "./version"
 require_relative "./cli"
