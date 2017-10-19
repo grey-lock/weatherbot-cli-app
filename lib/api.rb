@@ -2,8 +2,15 @@
 class Weatherbot::API < Helper
   attr_accessor :location, :response_code, :coordinates, :country, :location_name, :temp_avg, :temp_celsius, :condition, :cloudiness, :humidity, :wind_speed, :wind_direction, :report_time, :google_maps, :google_maps_link, :sunrise, :sunset, :hr24_dt, :hr48_dt, :hr72_dt, :temp24, :temp48, :temp72, :condition24, :condition48, :condition72, :cloudiness24, :cloudiness48, :cloudiness72, :humidity24, :humidity48, :humidity72, :wind_speed24, :wind_speed48, :wind_speed72, :wind_direction24, :wind_direction48, :wind_direction72
 
+  @@locations = []
+
   def initialize
     @location = location
+    @@locations << self
+  end
+
+  def self.locations
+    @@locations
   end
 
   # Takes user input to enter into URL query & gets current weather conditions in imperial units
@@ -45,19 +52,10 @@ class Weatherbot::API < Helper
       @current.country = nil
     end
 
-      puts "\n\nReport Time:      #{@current.report_time}"
-      puts "Location:         #{@current.location_name}, #{@current.country}"
-      puts "Coordinates:      #{@current.coordinates}"
-      puts "Google Maps:      #{@current.google_maps}"
-      puts "\nTemperature:      #{@current.temp_avg}ºF / #{@current.temp_celsius}ºC"
-      puts "Condition:        #{@current.condition.capitalize}"
-      puts "Cloudiness:       #{@current.cloudiness}%"
-      puts "\nHumidity:         #{@current.humidity}%"
-      puts "Wind Speed:       #{@current.wind_speed} mph"
-      puts "Wind Direction:   #{@current.wind_direction}"
-      puts "\nSunrise:          #{@current.sunrise}"
-      puts "Sunset:           #{@current.sunset}"
+
     end
+
+    @current
   end
 
 
