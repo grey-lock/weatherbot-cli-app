@@ -49,7 +49,7 @@ class Weatherbot::CLI
         puts "\n\n\nSee you again soon!\n\n\n"
         exit
       end
-
+      # Check if user wants to enter invalid input before location
       if input === "forecast" || input === "map"
         puts "\n\n\nYou need to input a location first!\n\n\n"
         menu
