@@ -3,6 +3,6 @@
 require "bundler/setup"
 # require "httparty"
 # require "pry"
-require "weatherbot"
+require_relative "../lib/weatherbot"
 
 Weatherbot::CLI.new.call
