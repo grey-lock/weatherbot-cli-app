@@ -1,4 +1,5 @@
 # CLI Controller
+require 'paint'
 
 class Weatherbot::CLI
 
@@ -37,38 +38,40 @@ class Weatherbot::CLI
     while input != "exit"
 
       puts "\n-------------------------------\n"
-      puts "\nPlease enter a specific location in the format: <location>, <country> to check the current weather conditions for that location. You can also search by <location>, <state/region>, <country> to find the correct specific location.
-      \nType 'map' to open the most relevant result in your OS default browser.
-      \nType 'list' to see a list of previous locations.
-      \n*NOTE: This will open your web browser to the most likely location coordinates in Google Maps.*
-      \nYou can also type 'forecast' to display the 3 day forecast of the most recent search. To quit, type 'exit'.\n"
+      puts "\nPlease enter a specific location in the format:" + Paint[' <location>, <country>', "#D26C22"] + " to check the current weather conditions for that location. You can also search by " + Paint['<location>, <state/region>, <country>', "#D26C22"] + " to find the correct specific location.
+      \nType " + Paint['map', "#1E90FF"] + " to open the most relevant result in your OS default browser.
+      \n" + Paint['NOTE: ', :red] + "This will open your web browser to the most likely location coordinates in " + Paint['Google Maps.', :italic, :underline]
+      puts "\nYou can also type " + Paint['forecast', "#1E90FF"] + " to display the 3 day forecast of the most recent search.
+      \nType " + Paint['list', "#1E90FF"] + " to see a list of previous locations. To quit, type " + Paint['exit', "#1E90FF"] + "."
       puts "\n-------------------------------\n"
+
 
       input = gets.chomp.downcase
 
       # Check if user wants to exit
       if input === "exit"
-        puts "\n\n\nSee you again soon!\n\n\n"
+        puts Paint["\n\n\nSee you again soon!\n\n\n", "#808000"]
         exit
       end
       # Check if user wants to enter invalid input before location
       if input === "forecast" || input === "map"
-        puts "\n\n\nYou need to input a location first!\n\n\n"
+        puts Paint["\n\n\nYou need to input a location first!\n\n\n", :red]
         menu
       end
 
       # Display current weather
-      weather = Weatherbot::API.current_weather(input)
-
-
-
-      display_weather(weather)
+      if input.empty?
+        menu
+      else
+        weather = Weatherbot::API.current_weather(input)
+        display_weather(weather)
+      end
 
       new_input = gets.chomp.downcase
 
       # Check for specific input commands
       if new_input === "exit"
-        puts "\n\n\nSee you again soon!\n\n\n"
+        puts Paint["\n\n\nSee you again soon!\n\n\n", "#808000"]
         exit
       end
       # Display forecast or location map
@@ -105,7 +108,7 @@ class Weatherbot::CLI
   end
 
   def display_previous
-    Weatherbot::API.locations.map { |entry| puts entry.location_name }
+    Weatherbot::API.locations.map { |entry| puts Paint[entry.location_name, "#683A5E"] }
   end
 
 
